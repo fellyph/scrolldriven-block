@@ -59,10 +59,6 @@ addFilter('blocks.registerBlockType', 'my-scroll-block/extend-attributes', (sett
         type: 'number',
         default: 0,
       },
-      animationDisplacement: {
-        type: 'number',
-        default: 20,
-      },
     },
   };
 });
@@ -74,7 +70,7 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
       return <BlockEdit {...props} />;
     }
     const {
-      attributes: { animationType = 'none', animationDelay = 0, animationDisplacement = 20 },
+      attributes: { animationType = 'none', animationDelay = 0 },
       setAttributes,
     } = props;
 
@@ -95,15 +91,7 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
               value={animationDelay}
               onChange={(value) => setAttributes({ animationDelay: Number(value) || 0 })}
             />
-            <TextControl
-              label={__('Displacement (px)', 'my-scroll-block')}
-              type="number"
-              min={0}
-              max={100}
-              value={animationDisplacement}
-              onChange={(value) => setAttributes({ animationDisplacement: Number(value) || 0 })}
-            />
-            {/* No duration control; duration is driven by scroll timeline */}
+            {/* No duration or displacement controls; scroll timeline drives progress */}
           </PanelBody>
         </InspectorControls>
         <BlockEdit {...props} />
@@ -122,7 +110,7 @@ addFilter(
     if (!SUPPORTED_BLOCKS.includes(blockType.name)) {
       return extraProps;
     }
-    const { animationType = 'none', animationDelay = 0, animationDisplacement = 20 } = attributes;
+    const { animationType = 'none', animationDelay = 0 } = attributes;
     if (animationType === 'none') {
       return extraProps;
     }
@@ -138,10 +126,8 @@ addFilter(
 
     extraProps['data-scroll-anim'] = '1';
 
-    // Inline CSS variables for timing
-    const styleVars = `--anim-delay:${Number(animationDelay)}ms;--anim-displacement:${Number(
-      animationDisplacement
-    )}px;`;
+    // Inline CSS variable for timing only
+    const styleVars = `--anim-delay:${Number(animationDelay)}ms;`;
     extraProps.style = extraProps.style ? `${extraProps.style};${styleVars}` : styleVars;
 
     return extraProps;
@@ -157,11 +143,7 @@ addFilter(
       if (!SUPPORTED_BLOCKS.includes(props.name)) {
         return <BlockListBlock {...props} />;
       }
-      const {
-        animationType = 'none',
-        animationDelay = 0,
-        animationDisplacement = 20,
-      } = props.attributes;
+      const { animationType = 'none', animationDelay = 0 } = props.attributes;
       const extraProps = {};
       if (animationType !== 'none') {
         extraProps.className = [
@@ -175,7 +157,6 @@ addFilter(
         extraProps.style = {
           ...(props.style || {}),
           '--anim-delay': `${Number(animationDelay)}ms`,
-          '--anim-displacement': `${Number(animationDisplacement)}px`,
         };
       }
       return <BlockListBlock {...props} {...extraProps} />;
