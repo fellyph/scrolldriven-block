@@ -1,7 +1,7 @@
 # Product Requirements Document (PRD)  
 **Feature:** Scroll-Driven Animation Effects for Gutenberg Blocks  
-**Author:** [Your Name]  
-**Date:** [Today’s Date]  
+**Author:** [Fellyph Cintra]  
+**Date:** [Aug 08th, 2025]  
 **Version:** 1.0  
 
 ---
@@ -19,7 +19,6 @@ This will allow content creators to add modern, engaging visual effects without 
 - Allow customization of:
   - **Transition Type**
   - **Delay** (in ms)
-  - **Duration** (in ms)  
 - Ensure **accessibility and performance** best practices.  
 - Maintain compatibility with **core Gutenberg block styles**.  
 
@@ -45,7 +44,7 @@ This will allow content creators to add modern, engaging visual effects without 
 ## 4. User Stories  
 
 1. **As a content creator**, I want to select an animation type for the core blocks, image, paragraph, column and group. So that it animates when it scrolls into view.  
-2. **As a designer**, I want to configure the delay and duration of the animation to match my site’s visual style.  
+2. **As a designer**, I want to configure the delay of the animation to match my site’s visual style.  
 3. **As a site owner**, I want to enable animations without affecting performance or accessibility.  
 
 ---
@@ -57,7 +56,6 @@ This will allow content creators to add modern, engaging visual effects without 
 - The panel contains:
   - **Animation Type** (Dropdown: “None”, “Fade In”, “Slide In Left”, “Slide In Right”, “Slide In Up”, “Slide In Down”, “Scale Up”, “Rotate In”, etc.)
   - **Delay** (Number input in milliseconds)
-  - **Duration** (Number input in milliseconds)
 
 ### 5.2 Technical Requirements
 - Use CSS `@scroll-timeline` and `animation-timeline` if browser supports it, with JavaScript fallback for compatibility.
@@ -85,10 +83,6 @@ This will allow content creators to add modern, engaging visual effects without 
   "animationDelay": {
     "type": "number",
     "default": 0
-  },
-  "animationDuration": {
-    "type": "number",
-    "default": 500
   }
 }
 ```
@@ -98,14 +92,33 @@ This will allow content creators to add modern, engaging visual effects without 
 ### 8.1 CSS Example
 ```css
 
-.scroll-anim-fade {
-  animation-name: fadeIn;
-  animation-fill-mode: both;
+ @property --anim-displacement {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 20px;
+ }
+
+ @property --anim-delay {
+    syntax: '<time>';
+    inherits: false;
+    initial-value: 0ms;
+ }
+
+.scroll-anim-fade-in {
+  animation: scrollFadeIn ease-out var(--anim-delay) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 70%;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes scrollSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--anim-displacement)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 ```
 
@@ -126,7 +139,7 @@ animatedBlocks.forEach(block => observer.observe(block));
 
 ### 9. Acceptance Criteria
 
-User can select an animation type, delay, and duration in the sidebar for supported blocks.
+The user can select an animation type and delay in the sidebar for supported blocks.
 
 Animation plays once when the block enters the viewport.
 
