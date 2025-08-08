@@ -5,23 +5,24 @@
  * Replace them with your own styles or remove the file completely.
  */
 
- @property --anim-displacement {
-    syntax: '<length>';
-    inherits: false;
-    initial-value: 20px;
- }
+/* Base defaults */
+@property --anim-displacement {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 20px;
+}
 
- @property --anim-delay {
-    syntax: '<time>';
-    inherits: false;
-    initial-value: 0ms;
- }
+@property --anim-delay {
+  syntax: '<time>';
+  inherits: false;
+  initial-value: 0ms;
+}
 
 
 /* Apply animations */
 .scroll-anim-fade-in {
-    animation: scrollFadeIn ease-out var(--anim-delay) both;
-  }
+  animation: scrollFadeIn ease-out var(--anim-delay) both;
+}
 .scroll-anim-slide-in-left {
   animation: scrollSlideInLeft ease-out var(--anim-delay) both;
 }
