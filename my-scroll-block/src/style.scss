@@ -9,7 +9,7 @@
 @property --anim-displacement {
   syntax: '<length>';
   inherits: false;
-  initial-value: 20px;
+  initial-value: 30px;
 }
 
 @property --anim-delay {
@@ -21,25 +21,25 @@
 
 /* Apply animations */
 .scroll-anim-fade-in {
-  animation: scrollFadeIn ease-out var(--anim-delay) both;
+  animation: scrollFadeIn linear forwards;
 }
 .scroll-anim-slide-in-left {
-  animation: scrollSlideInLeft ease-out var(--anim-delay) both;
+  animation: scrollSlideInLeft linear forwards;
 }
 .scroll-anim-slide-in-right {
-  animation: scrollSlideInRight ease-out var(--anim-delay) both;
+  animation: scrollSlideInRight linear forwards;
 }
 .scroll-anim-slide-in-up {
-  animation: scrollSlideInUp ease-out var(--anim-delay) both;
+  animation: scrollSlideInUp linear forwards;
 }
 .scroll-anim-slide-in-down {
-  animation: scrollSlideInDown ease-out var(--anim-delay) both;
+  animation: scrollSlideInDown linear forwards;
 }
 .scroll-anim-scale-up {
-  animation: scrollScaleUp ease-out var(--anim-delay) both;
+  animation: scrollScaleUp linear forwards;
 }
 .scroll-anim-rotate-in {
-  animation: scrollRotateIn ease-out var(--anim-delay) both;
+  animation: scrollRotateIn linear forwards;
 }
 
 @supports (animation-timeline: view()) {
@@ -50,8 +50,9 @@
   .scroll-anim-slide-in-down,
   .scroll-anim-scale-up,
   .scroll-anim-rotate-in {
+    animation-delay: var(--anim-delay);
     animation-timeline: view();
-    animation-range: entry 0% cover 70%;
+    animation-range: entry 0% cover 50%;
   }
 }
 
@@ -107,7 +108,7 @@
 @keyframes scrollScaleUp {
   from {
     opacity: 0;
-    transform: scale(calc(1 - var(--anim-displacement) / 100));
+    transform: scale(0.8);
   }
   to {
     opacity: 1;
@@ -117,7 +118,7 @@
 @keyframes scrollRotateIn {
   from {
     opacity: 0;
-    transform: rotate(calc(var(--anim-displacement) * -0.3deg));
+    transform: rotate(25deg);
   }
   to {
     opacity: 1;
