@@ -8,38 +8,14 @@
 /* Base defaults */
 @property --anim-displacement {
   syntax: '<length>';
-  inherits: false;
-  initial-value: 30px;
+  inherits: true;
+  initial-value: 100px;
 }
 
-@property --anim-delay {
-  syntax: '<time>';
-  inherits: false;
-  initial-value: 0ms;
-}
-
-
-/* Apply animations */
-.scroll-anim-fade-in {
-  animation: scrollFadeIn linear forwards;
-}
-.scroll-anim-slide-in-left {
-  animation: scrollSlideInLeft linear forwards;
-}
-.scroll-anim-slide-in-right {
-  animation: scrollSlideInRight linear forwards;
-}
-.scroll-anim-slide-in-up {
-  animation: scrollSlideInUp linear forwards;
-}
-.scroll-anim-slide-in-down {
-  animation: scrollSlideInDown linear forwards;
-}
-.scroll-anim-scale-up {
-  animation: scrollScaleUp linear forwards;
-}
-.scroll-anim-rotate-in {
-  animation: scrollRotateIn linear forwards;
+@property --anim-cover {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 75%;
 }
 
 @supports (animation-timeline: view()) {
@@ -50,80 +26,48 @@
   .scroll-anim-slide-in-down,
   .scroll-anim-scale-up,
   .scroll-anim-rotate-in {
-    animation-delay: var(--anim-delay);
     animation-timeline: view();
-    animation-range: entry 0% cover 50%;
+    animation-range: entry 0% cover var(--anim-cover);
   }
 }
 
+/* Apply animations */
+.scroll-anim-fade-in { animation-name: scrollFadeIn; }
+.scroll-anim-slide-in-left { animation-name: scrollSlideInLeft; }
+.scroll-anim-slide-in-right { animation-name: scrollSlideInRight; }
+.scroll-anim-slide-in-up { animation-name: scrollSlideInUp; }
+.scroll-anim-slide-in-down { animation-name: scrollSlideInDown; }
+.scroll-anim-scale-up { animation-name: scrollScaleUp; }
+.scroll-anim-rotate-in { animation-name: scrollRotateIn; }
+
 /* CSS animations using keyframes as fallback */
 @keyframes scrollFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; transform: scale(1.5); }
+  to { opacity: 1; transform: scale(1); }
 }
 @keyframes scrollSlideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(calc(-1 * var(--anim-displacement)));
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(calc(-1 * var(--anim-displacement))); }
+  to { opacity: 1; transform: translateX(0); }
 }
 @keyframes scrollSlideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(var(--anim-displacement));
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(var(--anim-displacement)); }
+  to { opacity: 1; transform: translateX(0); }
 }
 @keyframes scrollSlideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(var(--anim-displacement));
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(var(--anim-displacement)); }
+  to { opacity: 1; transform: translateY(0); }
 }
 @keyframes scrollSlideInDown {
-  from {
-    opacity: 0;
-    transform: translateY(calc(-1 * var(--anim-displacement)));
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(calc(-1 * var(--anim-displacement))); }
+  to { opacity: 1; transform: translateY(0); }
 }
 @keyframes scrollScaleUp {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.4); }
+  to { opacity: 1; transform: scale(1); }
 }
 @keyframes scrollRotateIn {
-  from {
-    opacity: 0;
-    transform: rotate(25deg);
-  }
-  to {
-    opacity: 1;
-    transform: rotate(0);
-  }
+  from { opacity: 0; transform: rotate(25deg); }
+  to { opacity: 1; transform: rotate(0); }
 }
 
 /* Respect reduced motion */

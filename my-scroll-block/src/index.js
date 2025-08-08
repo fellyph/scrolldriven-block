@@ -7,7 +7,7 @@ import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
+import { PanelBody, SelectControl } from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -42,6 +42,13 @@ const ANIMATION_OPTIONS = [
   { label: __('Rotate In', 'my-scroll-block'), value: 'rotate-in' },
 ];
 
+const COVER_OPTIONS = [
+  { label: '25%', value: 25 },
+  { label: '50%', value: 50 },
+  { label: '75%', value: 75 },
+  { label: '100%', value: 100 },
+];
+
 // 1) Extend attributes for supported blocks.
 addFilter('blocks.registerBlockType', 'my-scroll-block/extend-attributes', (settings, name) => {
   if (!SUPPORTED_BLOCKS.includes(name)) {
@@ -55,9 +62,9 @@ addFilter('blocks.registerBlockType', 'my-scroll-block/extend-attributes', (sett
         type: 'string',
         default: 'none',
       },
-      animationDelay: {
+      animationCover: {
         type: 'number',
-        default: 0,
+        default: 80,
       },
     },
   };
@@ -70,7 +77,7 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
       return <BlockEdit {...props} />;
     }
     const {
-      attributes: { animationType = 'none', animationDelay = 0 },
+      attributes: { animationType = 'none', animationCover = 80 },
       setAttributes,
     } = props;
 
@@ -84,14 +91,17 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
               options={ANIMATION_OPTIONS}
               onChange={(value) => setAttributes({ animationType: value })}
             />
-            <TextControl
-              label={__('Delay (ms)', 'my-scroll-block')}
-              type="number"
-              min={0}
-              value={animationDelay}
-              onChange={(value) => setAttributes({ animationDelay: Number(value) || 0 })}
+            <SelectControl
+              label={__('Cover', 'my-scroll-block')}
+              help={__(
+                'How much of the element must be covered to complete the animation',
+                'my-scroll-block'
+              )}
+              value={animationCover}
+              options={COVER_OPTIONS}
+              onChange={(value) => setAttributes({ animationCover: Number(value) })}
             />
-            {/* No duration or displacement controls; scroll timeline drives progress */}
+            {/* No duration or delay controls; scroll timeline drives progress */}
           </PanelBody>
         </InspectorControls>
         <BlockEdit {...props} />
@@ -110,7 +120,7 @@ addFilter(
     if (!SUPPORTED_BLOCKS.includes(blockType.name)) {
       return extraProps;
     }
-    const { animationType = 'none', animationDelay = 0 } = attributes;
+    const { animationType = 'none', animationCover = 80 } = attributes;
     if (animationType === 'none') {
       return extraProps;
     }
@@ -126,8 +136,8 @@ addFilter(
 
     extraProps['data-scroll-anim'] = '1';
 
-    // Inline CSS variable for timing only
-    const styleVars = `--anim-delay:${Number(animationDelay)}ms;`;
+    // Inline CSS variable for cover only (percentage)
+    const styleVars = `--anim-cover:${Number(animationCover)}%;`;
     extraProps.style = extraProps.style ? `${extraProps.style};${styleVars}` : styleVars;
 
     return extraProps;
@@ -143,7 +153,7 @@ addFilter(
       if (!SUPPORTED_BLOCKS.includes(props.name)) {
         return <BlockListBlock {...props} />;
       }
-      const { animationType = 'none', animationDelay = 0 } = props.attributes;
+      const { animationType = 'none', animationCover = 80 } = props.attributes;
       const extraProps = {};
       if (animationType !== 'none') {
         extraProps.className = [
@@ -156,7 +166,7 @@ addFilter(
         extraProps['data-scroll-anim'] = '1';
         extraProps.style = {
           ...(props.style || {}),
-          '--anim-delay': `${Number(animationDelay)}ms`,
+          '--anim-cover': `${Number(animationCover)}%`,
         };
       }
       return <BlockListBlock {...props} {...extraProps} />;

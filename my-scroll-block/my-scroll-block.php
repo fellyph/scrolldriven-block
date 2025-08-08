@@ -36,13 +36,13 @@ function my_scroll_block_register_assets() {
 		);
 	}
 
-    if ( file_exists( $dir . 'build/index.css' ) ) {
-        wp_register_style(
-            'my-scroll-block-editor',
-            plugins_url( 'build/index.css', __FILE__ ),
+	if ( file_exists( $dir . 'build/index.css' ) ) {
+		wp_register_style(
+			'my-scroll-block-editor',
+			plugins_url( 'build/index.css', __FILE__ ),
 			array( 'wp-edit-blocks' ),
-            filemtime( $dir . 'build/index.css' )
-        );
+			filemtime( $dir . 'build/index.css' )
+		);
 
 		// Ensure styles load inside the editor iframe for supported core blocks.
 		$supported_blocks = array( 'core/image', 'core/paragraph', 'core/columns', 'core/group', 'core/heading' );
@@ -56,7 +56,7 @@ function my_scroll_block_register_assets() {
 				)
 			);
 		}
-    }
+	}
 
 	// Frontend shared style.
 	if ( file_exists( $dir . 'build/style-index.css' ) ) {
@@ -98,12 +98,11 @@ add_filter( 'render_block', function( $block_content, $block ) {
 
 		// Also ensure outer wrapper receives classes and attributes if missing (covers dynamic blocks).
 		if ( is_string( $block_content ) && $block_content !== '' && strpos( $block_content, 'scroll-anim-block' ) === false ) {
-			$animation_type        = sanitize_key( (string) $attrs['animationType'] );
-			$animation_delay       = isset( $attrs['animationDelay'] ) ? (int) $attrs['animationDelay'] : 0;
-			$animation_displacement = isset( $attrs['animationDisplacement'] ) ? (int) $attrs['animationDisplacement'] : 20;
+			$animation_type  = sanitize_key( (string) $attrs['animationType'] );
+			$animation_cover = isset( $attrs['animationCover'] ) ? (int) $attrs['animationCover'] : 80;
 
 			$add_classes = sprintf( 'scroll-anim-block scroll-anim-%s', strtolower( str_replace( ' ', '-', $animation_type ) ) );
-			$style_vars  = sprintf( '--anim-delay:%dms;--anim-displacement:%dpx;', $animation_delay, $animation_displacement );
+			$style_vars  = sprintf( '--anim-cover:%d%%;', $animation_cover );
 
 			// Inject into first element tag.
 			if ( preg_match( '/^\s*<([a-zA-Z0-9:-]+)([^>]*)>/', $block_content, $m, PREG_OFFSET_CAPTURE ) ) {
