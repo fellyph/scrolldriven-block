@@ -36,14 +36,27 @@ function my_scroll_block_register_assets() {
 		);
 	}
 
-	if ( file_exists( $dir . 'build/index.css' ) ) {
-		wp_register_style(
-			'my-scroll-block-editor',
-			plugins_url( 'build/index.css', __FILE__ ),
-			array(),
-			filemtime( $dir . 'build/index.css' )
-		);
-	}
+    if ( file_exists( $dir . 'build/index.css' ) ) {
+        wp_register_style(
+            'my-scroll-block-editor',
+            plugins_url( 'build/index.css', __FILE__ ),
+			array( 'wp-edit-blocks' ),
+            filemtime( $dir . 'build/index.css' )
+        );
+
+		// Ensure styles load inside the editor iframe for supported core blocks.
+		$supported_blocks = array( 'core/image', 'core/paragraph', 'core/columns', 'core/group', 'core/heading' );
+		foreach ( $supported_blocks as $block_name ) {
+			wp_enqueue_block_style(
+				$block_name,
+				array(
+					'handle' => 'my-scroll-block-editor',
+					'src'    => plugins_url( 'build/index.css', __FILE__ ),
+					'path'   => $dir . 'build/index.css',
+				)
+			);
+		}
+    }
 
 	// Frontend shared style.
 	if ( file_exists( $dir . 'build/style-index.css' ) ) {

@@ -1,36 +1,30 @@
-/* Editor-only tweaks for visibility while authoring */
-[data-scroll-anim] {
-  outline: 1px dashed rgba(0,0,0,0.05);
-}
 /* Animation indicator icon */
-.scroll-anim-indicator-wrapper {
+.scroll-anim-indicator-wrapper{
   position: relative;
-}
 
-.scroll-anim-indicator {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 10;
-  background: #007cba;
-  color: white;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  font-size: 10px;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-}
+   .scroll-anim-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: hotpink;
+    border-radius: 100%;
+    aspect-ratio: 1;
+    width: 24px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
 
-.scroll-anim-indicator:hover {
-  opacity: 1;
-}
+    &:hover {
+      opacity: 1;
+    }
 
-.scroll-anim-indicator svg {
-  width: 12px;
-  height: 12px;
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
 }
