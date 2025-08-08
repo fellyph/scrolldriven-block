@@ -1,0 +1,8 @@
+/* Editor-only tweaks for visibility while authoring */
+[data-scroll-anim] {
+    outline: 1px dashed rgba(0,0,0,0.05);
+}
+
+[data-scroll-anim]:where(:not(.is-animated)) {
+    opacity: 0.6;
+}
