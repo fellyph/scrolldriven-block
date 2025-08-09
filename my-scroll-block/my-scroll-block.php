@@ -99,10 +99,8 @@ add_filter( 'render_block', function( $block_content, $block ) {
 		// Also ensure outer wrapper receives classes and attributes if missing (covers dynamic blocks).
 		if ( is_string( $block_content ) && $block_content !== '' && strpos( $block_content, 'scroll-anim-block' ) === false ) {
 			$animation_type  = sanitize_key( (string) $attrs['animationType'] );
-			$animation_cover = isset( $attrs['animationCover'] ) ? (int) $attrs['animationCover'] : 80;
 
 			$add_classes = sprintf( 'scroll-anim-block scroll-anim-%s', strtolower( str_replace( ' ', '-', $animation_type ) ) );
-			$style_vars  = sprintf( '--anim-cover:%d%%;', $animation_cover );
 
 			// Inject into first element tag.
 			if ( preg_match( '/^\s*<([a-zA-Z0-9:-]+)([^>]*)>/', $block_content, $m, PREG_OFFSET_CAPTURE ) ) {
@@ -115,13 +113,6 @@ add_filter( 'render_block', function( $block_content, $block ) {
 					$updated  = preg_replace( '/\sclass\s*=\s*"([^"]*)"/i', ' class="' . esc_attr( $newClass ) . '"', $updated, 1 );
 				} else {
 					$updated .= ' class="' . esc_attr( $add_classes ) . '"';
-				}
-
-				if ( preg_match( '/\sstyle\s*=\s*"([^"]*)"/i', $updated, $sm ) ) {
-					$newStyle = rtrim( $sm[1], ';' ) . ';' . $style_vars;
-					$updated  = preg_replace( '/\sstyle\s*=\s*"([^"]*)"/i', ' style="' . esc_attr( $newStyle ) . '"', $updated, 1 );
-				} else {
-					$updated .= ' style="' . esc_attr( $style_vars ) . '"';
 				}
 
 				if ( strpos( $updated, 'data-scroll-anim' ) === false ) {
