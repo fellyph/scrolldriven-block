@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
+import { dispatch } from '@wordpress/data';
 
 import './style.css';
 import './editor.css';
@@ -29,13 +30,6 @@ const ANIMATION_OPTIONS = [
   { label: __('Rotate In', 'my-scroll-block'), value: 'rotate-in' },
 ];
 
-const COVER_OPTIONS = [
-  { label: '25%', value: 25 },
-  { label: '50%', value: 50 },
-  { label: '75%', value: 75 },
-  { label: '100%', value: 100 },
-];
-
 // 1) Extend attributes for supported blocks.
 addFilter('blocks.registerBlockType', 'my-scroll-block/extend-attributes', (settings, name) => {
   if (!SUPPORTED_BLOCKS.includes(name)) {
@@ -49,10 +43,6 @@ addFilter('blocks.registerBlockType', 'my-scroll-block/extend-attributes', (sett
         type: 'string',
         default: 'none',
       },
-      animationCover: {
-        type: 'number',
-        default: 80,
-      },
     },
   };
 });
@@ -64,29 +54,19 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
       return <BlockEdit {...props} />;
     }
     const {
-      attributes: { animationType = 'none', animationCover = 80 },
+      attributes: { animationType = 'none' },
       setAttributes,
     } = props;
 
     return (
       <>
         <InspectorControls>
-          <PanelBody title={__('Scroll Animation', 'my-scroll-block')} initialOpen={false}>
+          <PanelBody title={__('Scroll Animation', 'my-scroll-block')} initialOpen={true}>
             <SelectControl
               label={__('Animation Type', 'my-scroll-block')}
               value={animationType}
               options={ANIMATION_OPTIONS}
               onChange={(value) => setAttributes({ animationType: value })}
-            />
-            <SelectControl
-              label={__('Cover', 'my-scroll-block')}
-              help={__(
-                'How much of the element must be covered to complete the animation',
-                'my-scroll-block'
-              )}
-              value={animationCover}
-              options={COVER_OPTIONS}
-              onChange={(value) => setAttributes({ animationCover: Number(value) })}
             />
           </PanelBody>
         </InspectorControls>
@@ -106,7 +86,7 @@ addFilter(
     if (!SUPPORTED_BLOCKS.includes(blockType.name)) {
       return extraProps;
     }
-    const { animationType = 'none', animationCover = 80 } = attributes;
+    const { animationType = 'none' } = attributes;
     if (animationType === 'none') {
       return extraProps;
     }
@@ -122,10 +102,6 @@ addFilter(
 
     extraProps['data-scroll-anim'] = '1';
 
-    // Inline CSS variable for cover only (percentage)
-    const styleVars = `--anim-cover:${Number(animationCover)}%;`;
-    extraProps.style = extraProps.style ? `${extraProps.style};${styleVars}` : styleVars;
-
     return extraProps;
   }
 );
@@ -139,7 +115,7 @@ addFilter(
       if (!SUPPORTED_BLOCKS.includes(props.name)) {
         return <BlockListBlock {...props} />;
       }
-      const { animationType = 'none', animationCover = 80 } = props.attributes;
+      const { animationType = 'none' } = props.attributes;
       const extraProps = {};
       if (animationType !== 'none') {
         extraProps.className = [
@@ -150,17 +126,28 @@ addFilter(
           .filter(Boolean)
           .join(' ');
         extraProps['data-scroll-anim'] = '1';
-        extraProps.style = {
-          ...(props.style || {}),
-          '--anim-cover': `${Number(animationCover)}%`,
-        };
       }
       return <BlockListBlock {...props} {...extraProps} />;
     };
   }, 'withListExtraProps')
 );
 
-// 5) Add animation indicator icon to blocks with animations.
+function openBlockInspector(clientId) {
+  try {
+    // Ensure the block is selected
+    dispatch('core/block-editor').selectBlock(clientId);
+  } catch (e) {}
+  try {
+    // Post editor (classic block editor screen)
+    dispatch('core/edit-post').openGeneralSidebar('edit-post/block');
+  } catch (e) {}
+  try {
+    // Site editor (FSE)
+    dispatch('core/edit-site').openGeneralSidebar('edit-site/block-inspector');
+  } catch (e) {}
+}
+
+// 5) Add animation indicator icon to blocks with animations and make it clickable.
 addFilter(
   'editor.BlockListBlock',
   'my-scroll-block/animation-indicator',
@@ -175,14 +162,30 @@ addFilter(
         return <BlockListBlock {...props} />;
       }
 
+      const handleActivate = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        openBlockInspector(props.clientId);
+      };
+
+      const handleKeyDown = (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          handleActivate(event);
+        }
+      };
+
       return (
         <div className="scroll-anim-indicator-wrapper">
           <BlockListBlock {...props} />
           <div
             className="scroll-anim-indicator"
-            title={__('Scroll Animation Applied', 'my-scroll-block')}
+            title={__('Scroll Animation Applied (click to open settings)', 'my-scroll-block')}
+            role="button"
+            tabIndex={0}
+            onClick={handleActivate}
+            onKeyDown={handleKeyDown}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
           </div>
