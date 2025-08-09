@@ -1,24 +1,11 @@
-/**
- * Registers a new block provided a unique name and an object defining its behavior.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
- */
 import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * All files containing `style` keyword are bundled together. The code used
- * gets applied both to the front of your site and to the editor. All other files
- * get applied to the editor only.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
-import './style.scss';
-import './editor.scss';
+import './style.css';
+import './editor.css';
 
 /**
  * Internal dependencies
@@ -101,7 +88,6 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
               options={COVER_OPTIONS}
               onChange={(value) => setAttributes({ animationCover: Number(value) })}
             />
-            {/* No duration or delay controls; scroll timeline drives progress */}
           </PanelBody>
         </InspectorControls>
         <BlockEdit {...props} />
