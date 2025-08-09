@@ -18,12 +18,6 @@
     initial-value: 5vh;
   }
 
-@property --anim-cover {
-  syntax: '<percentage>';
-  inherits: true;
-  initial-value: 50%;
-}
-
 @supports (animation-timeline: view()) {
   .scroll-anim-fade-in,
   .scroll-anim-slide-in-left,
@@ -33,18 +27,41 @@
   .scroll-anim-scale-up,
   .scroll-anim-rotate-in {
     animation-timeline: view();
-    animation-range: cover 0% cover var(--anim-cover);
+    animation-range: entry 20% cover 100%;
   }
 }
 
 /* Apply animations */
-.scroll-anim-fade-in { animation-name: scrollFadeIn; }
-.scroll-anim-slide-in-left { animation-name: scrollSlideInLeft; }
-.scroll-anim-slide-in-right { animation-name: scrollSlideInRight; }
-.scroll-anim-slide-in-up { animation-name: scrollSlideInUp; }
-.scroll-anim-slide-in-down { animation-name: scrollSlideInDown; }
-.scroll-anim-scale-up { animation-name: scrollScaleUp; }
-.scroll-anim-rotate-in { animation-name: scrollRotateIn; }
+.scroll-anim-fade-in { 
+  animation-name: scrollFadeIn;
+  opacity: 0; 
+  transform: translateY(var(--anim-displacement-vertical));
+}
+.scroll-anim-slide-in-left { 
+  animation-name: scrollSlideInLeft;
+  opacity: 0;
+  transform: translateX(calc(-1 * var(--anim-displacement-horizontal)));
+}
+.scroll-anim-slide-in-right { animation-name: scrollSlideInRight;
+  opacity: 0;
+  transform: translateX(var(--anim-displacement-horizontal));
+}
+.scroll-anim-slide-in-up { animation-name: scrollSlideInUp;
+  opacity: 0;
+  transform: translateY(var(--anim-displacement-vertical));
+}
+.scroll-anim-slide-in-down { animation-name: scrollSlideInDown;
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
+}
+.scroll-anim-scale-up { animation-name: scrollScaleUp;
+  opacity: 0;
+  transform: scale(0.3);
+}
+.scroll-anim-rotate-in { animation-name: scrollRotateIn;
+  opacity: 0;
+  transform: rotate(25deg);
+}
 
 /* CSS animations using keyframes as fallback */
 @keyframes scrollFadeIn {
@@ -68,7 +85,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes scrollScaleUp {
-  from { opacity: 0; transform: scale(0.4); }
+  from { opacity: 0; transform: scale(0.3); }
   to { opacity: 1; transform: scale(1); }
 }
 @keyframes scrollRotateIn {
