@@ -13,7 +13,8 @@
     "lint:js": "wp-scripts lint-js",
     "packages-update": "wp-scripts packages-update",
     "plugin-zip": "wp-scripts plugin-zip",
-    "start": "wp-scripts start --experimental-modules"
+    "start": "wp-scripts start --experimental-modules",
+    "test": "playwright test"
   },
   "files": [
     "[^.]*"
@@ -22,7 +23,9 @@
     "@wordpress/interactivity": "^6.28.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.0",
     "@wordpress/scripts": "^30.21.0",
+    "@wp-playground/cli": "^3.0.8",
     "prettier": "^3.6.2"
   }
 }
