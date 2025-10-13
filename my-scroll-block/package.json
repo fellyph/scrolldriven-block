@@ -14,7 +14,11 @@
     "packages-update": "wp-scripts packages-update",
     "plugin-zip": "wp-scripts plugin-zip",
     "start": "wp-scripts start --experimental-modules",
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
   },
   "files": [
     "[^.]*"
@@ -24,8 +28,12 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
+    "@types/node": "^22.10.5",
     "@wordpress/scripts": "^30.21.0",
     "@wp-playground/cli": "^3.0.8",
-    "prettier": "^3.6.2"
+    "cross-env": "^7.0.3",
+    "prettier": "^3.6.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
   }
 }
