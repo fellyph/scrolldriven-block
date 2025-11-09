@@ -20,8 +20,8 @@ scrolldriven-block/
 │   ├── my-scroll-block.php       # Main plugin file (PHP)
 │   ├── package.json              # Node dependencies & scripts
 │   ├── tsconfig.json             # TypeScript config (for test compilation)
-│   └── playwright.config.js       # Playwright test configuration
-└── blueprint.json                # WordPress Playground demo content
+│   ├── blueprint.json            # Initial configuration to start a WordPress Playground instance
+│   └── playwright.config.js      # Playwright test configuration
 ```
 
 ## Common Development Commands
@@ -34,6 +34,9 @@ npm start
 
 # Build assets for production
 npm run build
+
+# Preview the changes on WordPress Playground
+npm run playground:start
 
 # Linting and formatting
 npm run lint:js                   # Lint JavaScript
@@ -93,6 +96,7 @@ Tests use **Playwright + TypeScript + WordPress Playground**:
 - **Global Teardown** (`tests/global-teardown.ts`): Stops server
 - **Tests** (`tests/scroll-block.spec.ts`): Runs against http://127.0.0.1:9400
 - **Configuration** (`playwright.config.js`): Chromium only, 30-second timeout, HTML reporter
+- **Blueprint** (`./my-scroll-block/blueprint.json`): Contains the initial data to initiate a WordPress Playground instance for testing
 
 To run tests individually:
 ```bash
@@ -151,7 +155,7 @@ Tests run against a real WordPress instance via WordPress Playground. When addin
 
 - **No frontend JavaScript**: All animations are CSS scroll timeline-based; no JS execution on frontend
 - **Plugin file mirrors source logic**: Changes to block support in `src/index.js` must be mirrored in `my-scroll-block.php`
-- **CSS scroll timeline browser support**: Check [Can I Use](https://caniuse.com/?search=scroll-timelin
+- **CSS scroll timeline browser support**: Check [Can I Use](https://caniuse.com/?search=scroll-timeline)
 
 ## WordPress Playground Testing
 
@@ -162,7 +166,7 @@ When working on this WordPress plugin, you can help users test changes by provid
 When you've made changes to the plugin and pushed to a branch, provide a WordPress Playground link in this format:
 
 ```
-https://playground.wordpress.net/#{%22steps%22:[{%22step%22:%22installPlugin%22,%22pluginData%22:{%22resource%22:%22git:directory%22,%22url%22:%22https://github.com/akirk/friends%22,%22ref%22:%22BRANCH_NAME%22,%22refType%22:%22branch%22},%22options%22:{%22activate%22:true}}]}
+https://playground.wordpress.net/#{%22steps%22:[{%22step%22:%22installPlugin%22,%22pluginData%22:{%22resource%22:%22git:directory%22,%22url%22:%22https://github.com/fellyph/scrolldriven-block%22,%22ref%22:%22BRANCH_NAME%22,%22refType%22:%22branch%22},%22options%22:{%22activate%22:true}}]}
 ```
 
 Replace `BRANCH_NAME` with the actual branch name you're working on.
@@ -172,7 +176,7 @@ Replace `BRANCH_NAME` with the actual branch name you're working on.
 If working on branch `claude/add-feature-xyz`, the link would be:
 
 ```
-https://playground.wordpress.net/#{%22steps%22:[{%22step%22:%22installPlugin%22,%22pluginData%22:{%22resource%22:%22git:directory%22,%22url%22:%22https://github.com/akirk/friends%22,%22ref%22:%22claude/add-feature-xyz%22,%22refType%22:%22branch%22},%22options%22:{%22activate%22:true}}]}
+https://playground.wordpress.net/#{%22steps%22:[{%22step%22:%22installPlugin%22,%22pluginData%22:{%22resource%22:%22git:directory%22,%22url%22:%22https://github.com/fellyph/scrolldriven-block%22,%22ref%22:%22claude/add-feature-xyz%22,%22refType%22:%22branch%22},%22options%22:{%22activate%22:true}}]}
 ```
 
 ### When to Provide Links
