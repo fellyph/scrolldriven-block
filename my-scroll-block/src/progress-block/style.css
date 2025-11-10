@@ -1,0 +1,162 @@
+/**
+ * Reading Progress Bar - Frontend Styles
+ * Uses CSS scroll() timeline to track page scroll progress
+ */
+
+.reading-progress-container {
+	position: fixed;
+	left: 0;
+	right: 0;
+	width: 100%;
+	z-index: 999999;
+	pointer-events: none;
+}
+
+.reading-progress-container.position-top {
+	top: 0;
+}
+
+.reading-progress-container.position-bottom {
+	bottom: 0;
+}
+
+.reading-progress-track {
+	height: var(--progress-bar-height, 4px);
+	background-color: var(--progress-bg-color, #e0e0e0);
+	position: relative;
+	overflow: hidden;
+}
+
+.reading-progress-bar {
+	height: 100%;
+	background-color: var(--progress-bar-color, #3858e9);
+	transform-origin: 0 50%;
+	transform: scaleX(0);
+}
+
+/* Scroll Progress Timeline - The Magic! */
+@supports (animation-timeline: scroll()) {
+	.reading-progress-bar {
+		animation: progress-bar linear;
+		animation-timeline: scroll(root block);
+		animation-range: 0% 100%;
+	}
+}
+
+@keyframes progress-bar {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+/* Percentage Display */
+.reading-progress-percentage {
+	position: absolute;
+	right: 16px;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: auto;
+	background: var(--progress-bar-color, #3858e9);
+	color: white;
+	padding: 4px 12px;
+	border-radius: 12px;
+	font-size: 12px;
+	font-weight: 600;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.reading-progress-container:hover .reading-progress-percentage {
+	opacity: 1;
+}
+
+/* Animate percentage value using scroll timeline */
+@supports (animation-timeline: scroll()) {
+	.percentage-value::before {
+		content: '0';
+		animation: percentage-counter linear;
+		animation-timeline: scroll(root block);
+		animation-range: 0% 100%;
+		counter-reset: percentage 0;
+	}
+	
+	@keyframes percentage-counter {
+		to {
+			counter-increment: percentage 100;
+			content: counter(percentage);
+		}
+	}
+}
+
+/* Fallback for browsers without scroll timeline support */
+@supports not (animation-timeline: scroll()) {
+	.reading-progress-bar {
+		transform: scaleX(0);
+	}
+	
+	.reading-progress-percentage {
+		display: none;
+	}
+	
+	body::after {
+		content: '⚠️ This browser does not support CSS Scroll Timelines. Please use Chrome 115+, Edge 115+, or Opera 101+ for the full experience.';
+		position: fixed;
+		bottom: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		background: #ff9800;
+		color: white;
+		padding: 12px 20px;
+		border-radius: 8px;
+		font-size: 14px;
+		z-index: 999999;
+		max-width: 90%;
+		text-align: center;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	}
+}
+
+/* Smooth entrance animation */
+.reading-progress-container {
+	animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+	.reading-progress-bar {
+		animation: none !important;
+		transition: none !important;
+	}
+	
+	.reading-progress-container {
+		animation: none !important;
+	}
+	
+	.reading-progress-percentage {
+		transition: none !important;
+	}
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+	.reading-progress-percentage {
+		right: 8px;
+		padding: 3px 8px;
+		font-size: 11px;
+	}
+}
+

@@ -2,11 +2,14 @@ import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import { PanelBody, SelectControl, RangeControl, ToggleControl } from '@wordpress/components';
 import { dispatch } from '@wordpress/data';
 
 import './style.css';
 import './editor.css';
+
+// Import the Reading Progress Block
+import './progress-block/index.js';
 
 /**
  * Internal dependencies
@@ -28,6 +31,19 @@ const ANIMATION_OPTIONS = [
   { label: __('Slide In Down', 'my-scroll-block'), value: 'slide-in-down' },
   { label: __('Scale Up', 'my-scroll-block'), value: 'scale-up' },
   { label: __('Rotate In', 'my-scroll-block'), value: 'rotate-in' },
+  { label: __('Blur In', 'my-scroll-block'), value: 'blur-in' },
+  { label: __('🔄 Fade In & Out', 'my-scroll-block'), value: 'fade-in-out' },
+  { label: __('🔄 Slide Up In & Out', 'my-scroll-block'), value: 'slide-up-in-out' },
+  { label: __('🔄 Scale In & Out', 'my-scroll-block'), value: 'scale-in-out' },
+  { label: __('🔄 Rotate In & Out', 'my-scroll-block'), value: 'rotate-in-out' },
+];
+
+const RANGE_OPTIONS = [
+  { label: __('Default (20% - 100%)', 'my-scroll-block'), value: 'default' },
+  { label: __('Quick (0% - 50%)', 'my-scroll-block'), value: 'quick' },
+  { label: __('Slow (10% - 100%)', 'my-scroll-block'), value: 'slow' },
+  { label: __('Late Start (50% - 100%)', 'my-scroll-block'), value: 'late' },
+  { label: __('Custom', 'my-scroll-block'), value: 'custom' },
 ];
 
 // 1) Extend attributes for supported blocks.
@@ -43,6 +59,26 @@ addFilter('blocks.registerBlockType', 'my-scroll-block/extend-attributes', (sett
         type: 'string',
         default: 'none',
       },
+      animationRange: {
+        type: 'string',
+        default: 'default',
+      },
+      animationEntryStart: {
+        type: 'number',
+        default: 20,
+      },
+      animationEntryEnd: {
+        type: 'number',
+        default: 100,
+      },
+      animationExitStart: {
+        type: 'number',
+        default: 0,
+      },
+      animationExitEnd: {
+        type: 'number',
+        default: 100,
+      },
     },
   };
 });
@@ -54,9 +90,18 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
       return <BlockEdit {...props} />;
     }
     const {
-      attributes: { animationType = 'none' },
+      attributes: { 
+        animationType = 'none',
+        animationRange = 'default',
+        animationEntryStart = 20,
+        animationEntryEnd = 100,
+        animationExitStart = 0,
+        animationExitEnd = 100,
+      },
       setAttributes,
     } = props;
+
+    const isInOutAnimation = animationType.includes('in-out');
 
     return (
       <>
@@ -67,7 +112,83 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
               value={animationType}
               options={ANIMATION_OPTIONS}
               onChange={(value) => setAttributes({ animationType: value })}
+              help={animationType.includes('in-out') ? __('🔄 This animation plays on both entry and exit', 'my-scroll-block') : ''}
             />
+            
+            {animationType !== 'none' && (
+              <>
+                <SelectControl
+                  label={__('Animation Timing', 'my-scroll-block')}
+                  value={animationRange}
+                  options={RANGE_OPTIONS}
+                  onChange={(value) => {
+                    const updates = { animationRange: value };
+                    // Set preset values
+                    if (value === 'quick') {
+                      updates.animationEntryStart = 0;
+                      updates.animationEntryEnd = 50;
+                    } else if (value === 'slow') {
+                      updates.animationEntryStart = 10;
+                      updates.animationEntryEnd = 100;
+                    } else if (value === 'late') {
+                      updates.animationEntryStart = 50;
+                      updates.animationEntryEnd = 100;
+                    } else if (value === 'default') {
+                      updates.animationEntryStart = 20;
+                      updates.animationEntryEnd = 100;
+                    }
+                    setAttributes(updates);
+                  }}
+                  help={__('When should the animation start and finish', 'my-scroll-block')}
+                />
+
+                {animationRange === 'custom' && (
+                  <>
+                    <RangeControl
+                      label={__('Entry Start (%)', 'my-scroll-block')}
+                      value={animationEntryStart}
+                      onChange={(value) => setAttributes({ animationEntryStart: value })}
+                      min={0}
+                      max={100}
+                      step={5}
+                      help={__('When to start the entry animation', 'my-scroll-block')}
+                    />
+                    <RangeControl
+                      label={__('Entry End (%)', 'my-scroll-block')}
+                      value={animationEntryEnd}
+                      onChange={(value) => setAttributes({ animationEntryEnd: value })}
+                      min={0}
+                      max={100}
+                      step={5}
+                      help={__('When to complete the entry animation', 'my-scroll-block')}
+                    />
+                    
+                    {isInOutAnimation && (
+                      <>
+                        <RangeControl
+                          label={__('Exit Start (%)', 'my-scroll-block')}
+                          value={animationExitStart}
+                          onChange={(value) => setAttributes({ animationExitStart: value })}
+                          min={0}
+                          max={100}
+                          step={5}
+                          help={__('When to start the exit animation', 'my-scroll-block')}
+                        />
+                        <RangeControl
+                          label={__('Exit End (%)', 'my-scroll-block')}
+                          value={animationExitEnd}
+                          onChange={(value) => setAttributes({ animationExitEnd: value })}
+                          min={0}
+                          max={100}
+                          step={5}
+                          help={__('When to complete the exit animation', 'my-scroll-block')}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
           </PanelBody>
         </InspectorControls>
         <BlockEdit {...props} />
@@ -86,12 +207,20 @@ addFilter(
     if (!SUPPORTED_BLOCKS.includes(blockType.name)) {
       return extraProps;
     }
-    const { animationType = 'none' } = attributes;
+    const { 
+      animationType = 'none',
+      animationRange = 'default',
+      animationEntryStart = 20,
+      animationEntryEnd = 100,
+      animationExitStart = 0,
+      animationExitEnd = 100,
+    } = attributes;
+    
     if (animationType === 'none') {
       return extraProps;
     }
 
-    // Class & data attribute
+    // Class & data attributes
     extraProps.className = [
       extraProps.className,
       'scroll-anim-block',
@@ -101,6 +230,17 @@ addFilter(
       .join(' ');
 
     extraProps['data-scroll-anim'] = '1';
+    extraProps['data-anim-range'] = animationRange;
+    
+    // Add custom range values as data attributes if using custom range
+    if (animationRange === 'custom') {
+      extraProps['data-entry-start'] = animationEntryStart;
+      extraProps['data-entry-end'] = animationEntryEnd;
+      if (animationType.includes('in-out')) {
+        extraProps['data-exit-start'] = animationExitStart;
+        extraProps['data-exit-end'] = animationExitEnd;
+      }
+    }
 
     return extraProps;
   }
@@ -115,8 +255,17 @@ addFilter(
       if (!SUPPORTED_BLOCKS.includes(props.name)) {
         return <BlockListBlock {...props} />;
       }
-      const { animationType = 'none' } = props.attributes;
+      const { 
+        animationType = 'none',
+        animationRange = 'default',
+        animationEntryStart = 20,
+        animationEntryEnd = 100,
+        animationExitStart = 0,
+        animationExitEnd = 100,
+      } = props.attributes;
+      
       const extraProps = {};
+      
       if (animationType !== 'none') {
         extraProps.className = [
           props.className,
@@ -126,6 +275,16 @@ addFilter(
           .filter(Boolean)
           .join(' ');
         extraProps['data-scroll-anim'] = '1';
+        extraProps['data-anim-range'] = animationRange;
+        
+        if (animationRange === 'custom') {
+          extraProps['data-entry-start'] = animationEntryStart;
+          extraProps['data-entry-end'] = animationEntryEnd;
+          if (animationType.includes('in-out')) {
+            extraProps['data-exit-start'] = animationExitStart;
+            extraProps['data-exit-end'] = animationExitEnd;
+          }
+        }
       }
       return <BlockListBlock {...props} {...extraProps} />;
     };

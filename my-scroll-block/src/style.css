@@ -19,19 +19,65 @@
   }
 
 @supports (animation-timeline: view()) {
+  /* Entry-only animations */
   .scroll-anim-fade-in,
   .scroll-anim-slide-in-left,
   .scroll-anim-slide-in-right,
   .scroll-anim-slide-in-up,
   .scroll-anim-slide-in-down,
   .scroll-anim-scale-up,
-  .scroll-anim-rotate-in {
+  .scroll-anim-rotate-in,
+  .scroll-anim-blur-in {
     animation-timeline: view();
     animation-range: entry 20% cover 100%;
   }
+
+  /* Quick timing preset */
+  [data-anim-range="quick"].scroll-anim-fade-in,
+  [data-anim-range="quick"].scroll-anim-slide-in-left,
+  [data-anim-range="quick"].scroll-anim-slide-in-right,
+  [data-anim-range="quick"].scroll-anim-slide-in-up,
+  [data-anim-range="quick"].scroll-anim-slide-in-down,
+  [data-anim-range="quick"].scroll-anim-scale-up,
+  [data-anim-range="quick"].scroll-anim-rotate-in,
+  [data-anim-range="quick"].scroll-anim-blur-in {
+    animation-range: entry 0% cover 50%;
+  }
+
+  /* Slow timing preset */
+  [data-anim-range="slow"].scroll-anim-fade-in,
+  [data-anim-range="slow"].scroll-anim-slide-in-left,
+  [data-anim-range="slow"].scroll-anim-slide-in-right,
+  [data-anim-range="slow"].scroll-anim-slide-in-up,
+  [data-anim-range="slow"].scroll-anim-slide-in-down,
+  [data-anim-range="slow"].scroll-anim-scale-up,
+  [data-anim-range="slow"].scroll-anim-rotate-in,
+  [data-anim-range="slow"].scroll-anim-blur-in {
+    animation-range: entry 10% cover 100%;
+  }
+
+  /* Late start timing preset */
+  [data-anim-range="late"].scroll-anim-fade-in,
+  [data-anim-range="late"].scroll-anim-slide-in-left,
+  [data-anim-range="late"].scroll-anim-slide-in-right,
+  [data-anim-range="late"].scroll-anim-slide-in-up,
+  [data-anim-range="late"].scroll-anim-slide-in-down,
+  [data-anim-range="late"].scroll-anim-scale-up,
+  [data-anim-range="late"].scroll-anim-rotate-in,
+  [data-anim-range="late"].scroll-anim-blur-in {
+    animation-range: entry 50% cover 100%;
+  }
+
+  /* In-and-out animations */
+  .scroll-anim-fade-in-out,
+  .scroll-anim-slide-up-in-out,
+  .scroll-anim-scale-in-out,
+  .scroll-anim-rotate-in-out {
+    animation-timeline: view();
+  }
 }
 
-/* Apply animations */
+/* Apply animations - Entry Only */
 .scroll-anim-fade-in { 
   animation-name: scrollFadeIn;
   opacity: 0; 
@@ -42,28 +88,52 @@
   opacity: 0;
   transform: translateX(calc(-1 * var(--anim-displacement-horizontal)));
 }
-.scroll-anim-slide-in-right { animation-name: scrollSlideInRight;
+.scroll-anim-slide-in-right { 
+  animation-name: scrollSlideInRight;
   opacity: 0;
   transform: translateX(var(--anim-displacement-horizontal));
 }
-.scroll-anim-slide-in-up { animation-name: scrollSlideInUp;
+.scroll-anim-slide-in-up { 
+  animation-name: scrollSlideInUp;
   opacity: 0;
   transform: translateY(var(--anim-displacement-vertical));
 }
-.scroll-anim-slide-in-down { animation-name: scrollSlideInDown;
+.scroll-anim-slide-in-down { 
+  animation-name: scrollSlideInDown;
   opacity: 0;
   transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
 }
-.scroll-anim-scale-up { animation-name: scrollScaleUp;
+.scroll-anim-scale-up { 
+  animation-name: scrollScaleUp;
   opacity: 0;
   transform: scale(0.3);
 }
-.scroll-anim-rotate-in { animation-name: scrollRotateIn;
+.scroll-anim-rotate-in { 
+  animation-name: scrollRotateIn;
   opacity: 0;
   transform: rotate(25deg);
 }
+.scroll-anim-blur-in {
+  animation-name: scrollBlurIn;
+  opacity: 0;
+  filter: blur(10px);
+}
 
-/* CSS animations using keyframes as fallback */
+/* Apply animations - In and Out */
+.scroll-anim-fade-in-out {
+  animation-name: scrollFadeInOut;
+}
+.scroll-anim-slide-up-in-out {
+  animation-name: scrollSlideUpInOut;
+}
+.scroll-anim-scale-in-out {
+  animation-name: scrollScaleInOut;
+}
+.scroll-anim-rotate-in-out {
+  animation-name: scrollRotateInOut;
+}
+
+/* CSS animations using keyframes - Entry Only */
 @keyframes scrollFadeIn {
   from { opacity: 0; transform: translateY(var(--anim-displacement-vertical)); }
   to { opacity: 1; transform: translateY(0); }
@@ -91,6 +161,87 @@
 @keyframes scrollRotateIn {
   from { opacity: 0; transform: rotate(25deg); }
   to { opacity: 1; transform: rotate(0); }
+}
+@keyframes scrollBlurIn {
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+/* CSS animations using keyframes - In and Out */
+@keyframes scrollFadeInOut {
+  entry 0% {
+    opacity: 0;
+    transform: translateY(var(--anim-displacement-vertical));
+  }
+  entry 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  exit 0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  exit 100% {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
+  }
+}
+
+@keyframes scrollSlideUpInOut {
+  entry 0% {
+    opacity: 0;
+    transform: translateY(var(--anim-displacement-vertical));
+  }
+  entry 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  exit 0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  exit 100% {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
+  }
+}
+
+@keyframes scrollScaleInOut {
+  entry 0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  entry 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  exit 0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  exit 100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+@keyframes scrollRotateInOut {
+  entry 0% {
+    opacity: 0;
+    transform: rotate(-25deg);
+  }
+  entry 100% {
+    opacity: 1;
+    transform: rotate(0);
+  }
+  exit 0% {
+    opacity: 1;
+    transform: rotate(0);
+  }
+  exit 100% {
+    opacity: 0;
+    transform: rotate(25deg);
+  }
 }
 
 /* Respect reduced motion */

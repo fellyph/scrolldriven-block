@@ -18,6 +18,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Registers the Reading Progress block.
+ */
+function my_scroll_block_register_blocks() {
+	// Register the Reading Progress block
+	register_block_type( __DIR__ . '/src/progress-block/block.json' );
+}
+add_action( 'init', 'my_scroll_block_register_blocks' );
+
+/**
  * Registers and enqueues editor and frontend assets to extend existing blocks.
  */
 function my_scroll_block_register_assets() {
@@ -99,8 +108,31 @@ add_filter( 'render_block', function( $block_content, $block ) {
 		// Also ensure outer wrapper receives classes and attributes if missing (covers dynamic blocks).
 		if ( is_string( $block_content ) && $block_content !== '' && strpos( $block_content, 'scroll-anim-block' ) === false ) {
 			$animation_type  = sanitize_key( (string) $attrs['animationType'] );
+			$animation_range = isset( $attrs['animationRange'] ) ? sanitize_key( (string) $attrs['animationRange'] ) : 'default';
 
 			$add_classes = sprintf( 'scroll-anim-block scroll-anim-%s', strtolower( str_replace( ' ', '-', $animation_type ) ) );
+
+			// Build data attributes
+			$data_attrs = ' data-scroll-anim="1" data-anim-range="' . esc_attr( $animation_range ) . '"';
+			
+			// Add custom range values if using custom range
+			if ( $animation_range === 'custom' ) {
+				if ( isset( $attrs['animationEntryStart'] ) ) {
+					$data_attrs .= ' data-entry-start="' . absint( $attrs['animationEntryStart'] ) . '"';
+				}
+				if ( isset( $attrs['animationEntryEnd'] ) ) {
+					$data_attrs .= ' data-entry-end="' . absint( $attrs['animationEntryEnd'] ) . '"';
+				}
+				// Add exit range for in-out animations
+				if ( strpos( $animation_type, 'in-out' ) !== false ) {
+					if ( isset( $attrs['animationExitStart'] ) ) {
+						$data_attrs .= ' data-exit-start="' . absint( $attrs['animationExitStart'] ) . '"';
+					}
+					if ( isset( $attrs['animationExitEnd'] ) ) {
+						$data_attrs .= ' data-exit-end="' . absint( $attrs['animationExitEnd'] ) . '"';
+					}
+				}
+			}
 
 			// Inject into first element tag.
 			if ( preg_match( '/^\s*<([a-zA-Z0-9:-]+)([^>]*)>/', $block_content, $m, PREG_OFFSET_CAPTURE ) ) {
@@ -116,7 +148,7 @@ add_filter( 'render_block', function( $block_content, $block ) {
 				}
 
 				if ( strpos( $updated, 'data-scroll-anim' ) === false ) {
-					$updated .= ' data-scroll-anim="1"';
+					$updated .= $data_attrs;
 				}
 
 				$newOpen = '<' . $m[1][0] . $updated . '>';
