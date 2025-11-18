@@ -10,23 +10,27 @@ This file guides AI Agents when working with code in this repository.
 
 ```
 scrolldriven-block/
-├── my-scroll-block/              # Main plugin directory
-│   ├── src/                      # Source files (compiled by wp-scripts)
-│   │   ├── index.js              # Main editor script with block filters
-│   │   ├── editor.css            # Editor UI styles
-│   │   └── style.css             # Frontend animation styles
-│   ├── build/                    # Compiled assets (generated)
-│   ├── tests/                    # Playwright + TypeScript tests
-│   ├── my-scroll-block.php       # Main plugin file (PHP)
-│   ├── package.json              # Node dependencies & scripts
-│   ├── tsconfig.json             # TypeScript config (for test compilation)
-│   ├── blueprint.json            # Initial configuration to start a WordPress Playground instance
-│   └── playwright.config.js      # Playwright test configuration
+├── src/                          # Source files (compiled by wp-scripts)
+│   ├── index.js                  # Main editor script with block filters
+│   ├── editor.css                # Editor UI styles
+│   ├── style.css                 # Frontend animation styles
+│   └── progress-block/           # Progress bar block component
+├── build/                        # Compiled assets (generated)
+├── tests/                        # Playwright + TypeScript tests
+├── my-scroll-block.php           # Main plugin file (PHP)
+├── package.json                  # Node dependencies & scripts
+├── tsconfig.json                 # TypeScript config (for test compilation)
+├── blueprint.json                # Initial configuration to start a WordPress Playground instance
+├── playwright.config.js          # Playwright test configuration
+└── .github/workflows/            # GitHub Actions workflows
+    ├── build-plugin.yml          # Build and create artifacts
+    ├── playwright.yml            # Run tests
+    └── pr-playground-comment.yml # Add Playground links to PRs
 ```
 
 ## Common Development Commands
 
-All commands run from `my-scroll-block/` directory:
+All commands run from repository root:
 
 ```bash
 # Start development server with live reload
@@ -96,7 +100,7 @@ Tests use **Playwright + TypeScript + WordPress Playground**:
 - **Global Teardown** (`tests/global-teardown.ts`): Stops server
 - **Tests** (`tests/scroll-block.spec.ts`): Runs against http://127.0.0.1:9400
 - **Configuration** (`playwright.config.js`): Chromium only, 30-second timeout, HTML reporter
-- **Blueprint** (`./my-scroll-block/blueprint.json`): Contains the initial data to initiate a WordPress Playground instance for testing
+- **Blueprint** (`blueprint.json`): Contains the initial data to initiate a WordPress Playground instance for testing
 
 To run tests individually:
 ```bash
@@ -107,33 +111,33 @@ npx playwright test scroll-block.spec.ts -g "test-name-pattern"
 
 | File | Purpose |
 |------|---------|
-| [my-scroll-block.php](my-scroll-block/my-scroll-block.php) | Plugin entry point; enqueues assets; applies render_block filter for frontend class/attr injection |
-| [src/index.js](my-scroll-block/src/index.js) | Block filters for editor integration; attribute registration, UI controls, markup manipulation |
-| [src/style.css](my-scroll-block/src/style.css) | CSS scroll timeline rules for all animation types |
-| [src/editor.css](my-scroll-block/src/editor.css) | Editor UI styles (animation indicator, editor preview) |
-| [tests/scroll-block.spec.ts](my-scroll-block/tests/scroll-block.spec.ts) | End-to-end tests for editor and frontend rendering |
-| [tests/global-setup.ts](my-scroll-block/tests/global-setup.ts) | WordPress Playground startup with plugin mounting |
+| [my-scroll-block.php](my-scroll-block.php) | Plugin entry point; enqueues assets; applies render_block filter for frontend class/attr injection |
+| [src/index.js](src/index.js) | Block filters for editor integration; attribute registration, UI controls, markup manipulation |
+| [src/style.css](src/style.css) | CSS scroll timeline rules for all animation types |
+| [src/editor.css](src/editor.css) | Editor UI styles (animation indicator, editor preview) |
+| [tests/scroll-block.spec.ts](tests/scroll-block.spec.ts) | End-to-end tests for editor and frontend rendering |
+| [tests/global-setup.ts](tests/global-setup.ts) | WordPress Playground startup with plugin mounting |
 
 ## When Making Changes
 
 ### Adding a New Animation Type
 
-1. Add option to `ANIMATION_OPTIONS` array in [src/index.js](my-scroll-block/src/index.js)
-2. Add CSS animation rules to [src/style.css](my-scroll-block/src/style.css) using the class `.scroll-anim-{type}`
-3. Add test case in [tests/scroll-block.spec.ts](my-scroll-block/tests/scroll-block.spec.ts)
+1. Add option to `ANIMATION_OPTIONS` array in [src/index.js](src/index.js)
+2. Add CSS animation rules to [src/style.css](src/style.css) using the class `.scroll-anim-{type}`
+3. Add test case in [tests/scroll-block.spec.ts](tests/scroll-block.spec.ts)
 4. Rebuild: `npm run build`
 
 ### Modifying Block Support
 
 Supported blocks are defined in:
-- `SUPPORTED_BLOCKS` constant in [src/index.js](my-scroll-block/src/index.js)
-- `$supported_blocks` array in [my-scroll-block.php](my-scroll-block/my-scroll-block.php) (must match)
+- `SUPPORTED_BLOCKS` constant in [src/index.js](src/index.js)
+- `$supported_blocks` array in [my-scroll-block.php](my-scroll-block.php) (must match)
 
 Update both locations when changing supported blocks.
 
 ### Editor UI Changes
 
-The animation selector is rendered via `PanelBody` + `SelectControl` components in [src/index.js](my-scroll-block/src/index.js:64-71). CSS styles for the animation indicator are in [src/editor.css](my-scroll-block/src/editor.css).
+The animation selector is rendered via `PanelBody` + `SelectControl` components in [src/index.js](src/index.js:64-71). CSS styles for the animation indicator are in [src/editor.css](src/editor.css).
 
 ### Testing New Features
 

@@ -22,33 +22,27 @@ jobs:
         with:
           node-version: "lts/*"
           cache: "npm"
-          cache-dependency-path: my-scroll-block/package-lock.json
 
       - name: Install dependencies
-        working-directory: my-scroll-block
         run: npm ci
 
       - name: Lint JavaScript
-        working-directory: my-scroll-block
         run: npm run lint:js
 
       - name: Lint CSS
-        working-directory: my-scroll-block
         run: npm run lint:css
 
       - name: Build plugin
-        working-directory: my-scroll-block
         run: npm run build
 
       - name: Create plugin zip
-        working-directory: my-scroll-block
         run: npm run plugin-zip
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: my-scroll-block-build
-          path: my-scroll-block/build/
+          path: build/
           retention-days: 30
 
       - name: Upload plugin zip

@@ -20,18 +20,14 @@ jobs:
         with:
           node-version: "lts/*"
           cache: "npm"
-          cache-dependency-path: my-scroll-block/package-lock.json
 
       - name: Install dependencies
-        working-directory: my-scroll-block
         run: npm ci
 
       - name: Install Chromium browser
-        working-directory: my-scroll-block
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright tests
-        working-directory: my-scroll-block
         run: npm test
 
       - name: Upload test report
@@ -39,5 +35,5 @@ jobs:
         if: failure()
         with:
           name: playwright-report
-          path: my-scroll-block/playwright-report/
+          path: playwright-report/
           retention-days: 30
