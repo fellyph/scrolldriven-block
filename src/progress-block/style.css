@@ -10,6 +10,7 @@
 	width: 100%;
 	z-index: 999999;
 	pointer-events: none;
+	animation: fadeIn 0.3s ease-out;
 }
 
 .reading-progress-container.position-top {
@@ -63,7 +64,7 @@
 	transform: translateY(-50%);
 	pointer-events: auto;
 	background: var(--progress-bar-color, #3858e9);
-	color: white;
+	color: #fff;
 	padding: 4px 12px;
 	border-radius: 12px;
 	font-size: 12px;
@@ -116,7 +117,7 @@
 		left: 50%;
 		transform: translateX(-50%);
 		background: #ff9800;
-		color: white;
+		color: #fff;
 		padding: 12px 20px;
 		border-radius: 8px;
 		font-size: 14px;
@@ -127,10 +128,6 @@
 	}
 }
 
-/* Smooth entrance animation */
-.reading-progress-container {
-	animation: fadeIn 0.3s ease-out;
-}
 
 @keyframes fadeIn {
 
