@@ -1,0 +1,68 @@
+name: Build Plugin
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  release:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+          cache-dependency-path: my-scroll-block/package-lock.json
+
+      - name: Install dependencies
+        working-directory: my-scroll-block
+        run: npm ci
+
+      - name: Lint JavaScript
+        working-directory: my-scroll-block
+        run: npm run lint:js
+
+      - name: Lint CSS
+        working-directory: my-scroll-block
+        run: npm run lint:css
+
+      - name: Build plugin
+        working-directory: my-scroll-block
+        run: npm run build
+
+      - name: Create plugin zip
+        working-directory: my-scroll-block
+        run: npm run plugin-zip
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-scroll-block-build
+          path: my-scroll-block/build/
+          retention-days: 30
+
+      - name: Upload plugin zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-scroll-block-plugin
+          path: my-scroll-block*.zip
+          retention-days: 90
+
+      - name: Upload to release (if release event)
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: my-scroll-block*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
