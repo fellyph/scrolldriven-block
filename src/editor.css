@@ -1,30 +1,30 @@
 /* Animation indicator icon */
-.scroll-anim-indicator-wrapper{
-  position: relative;
+.scroll-anim-indicator-wrapper {
+	position: relative;
 
-   .scroll-anim-indicator {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: hotpink;
-    border-radius: 100%;
-    aspect-ratio: 1;
-    width: 24px;
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: translate(-50%, -50%);
-    opacity: 0.3;
-    transition: opacity 0.2s ease;
+	.scroll-anim-indicator {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: #ff69b4;
+		border-radius: 100%;
+		aspect-ratio: 1;
+		width: 24px;
+		padding: 5px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transform: translate(-50%, -50%);
+		opacity: 0.3;
+		transition: opacity 0.2s ease;
 
-    &:hover {
-      opacity: 1;
-    }
+		&:hover {
+			opacity: 1;
+		}
 
-    svg {
-      width: 12px;
-      height: 12px;
-    }
-  }
+		svg {
+			width: 12px;
+			height: 12px;
+		}
+	}
 }

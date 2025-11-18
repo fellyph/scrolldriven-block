@@ -10,6 +10,7 @@
 	width: 100%;
 	z-index: 999999;
 	pointer-events: none;
+	animation: fadeIn 0.3s ease-out;
 }
 
 .reading-progress-container.position-top {
@@ -36,6 +37,7 @@
 
 /* Scroll Progress Timeline - The Magic! */
 @supports (animation-timeline: scroll()) {
+
 	.reading-progress-bar {
 		animation: progress-bar linear;
 		animation-timeline: scroll(root block);
@@ -44,9 +46,11 @@
 }
 
 @keyframes progress-bar {
+
 	from {
 		transform: scaleX(0);
 	}
+
 	to {
 		transform: scaleX(1);
 	}
@@ -60,12 +64,12 @@
 	transform: translateY(-50%);
 	pointer-events: auto;
 	background: var(--progress-bar-color, #3858e9);
-	color: white;
+	color: #fff;
 	padding: 4px 12px;
 	border-radius: 12px;
 	font-size: 12px;
 	font-weight: 600;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 	opacity: 0;
 	transition: opacity 0.3s ease;
@@ -77,15 +81,17 @@
 
 /* Animate percentage value using scroll timeline */
 @supports (animation-timeline: scroll()) {
+
 	.percentage-value::before {
-		content: '0';
+		content: "0";
 		animation: percentage-counter linear;
 		animation-timeline: scroll(root block);
 		animation-range: 0% 100%;
 		counter-reset: percentage 0;
 	}
-	
+
 	@keyframes percentage-counter {
+
 		to {
 			counter-increment: percentage 100;
 			content: counter(percentage);
@@ -95,22 +101,23 @@
 
 /* Fallback for browsers without scroll timeline support */
 @supports not (animation-timeline: scroll()) {
+
 	.reading-progress-bar {
 		transform: scaleX(0);
 	}
-	
+
 	.reading-progress-percentage {
 		display: none;
 	}
-	
+
 	body::after {
-		content: '⚠️ This browser does not support CSS Scroll Timelines. Please use Chrome 115+, Edge 115+, or Opera 101+ for the full experience.';
+		content: "⚠️ This browser does not support CSS Scroll Timelines. Please use Chrome 115+, Edge 115+, or Opera 101+ for the full experience.";
 		position: fixed;
 		bottom: 20px;
 		left: 50%;
 		transform: translateX(-50%);
 		background: #ff9800;
-		color: white;
+		color: #fff;
 		padding: 12px 20px;
 		border-radius: 8px;
 		font-size: 14px;
@@ -121,15 +128,13 @@
 	}
 }
 
-/* Smooth entrance animation */
-.reading-progress-container {
-	animation: fadeIn 0.3s ease-out;
-}
 
 @keyframes fadeIn {
+
 	from {
 		opacity: 0;
 	}
+
 	to {
 		opacity: 1;
 	}
@@ -137,15 +142,16 @@
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
+
 	.reading-progress-bar {
 		animation: none !important;
 		transition: none !important;
 	}
-	
+
 	.reading-progress-container {
 		animation: none !important;
 	}
-	
+
 	.reading-progress-percentage {
 		transition: none !important;
 	}
@@ -153,6 +159,7 @@
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
+
 	.reading-progress-percentage {
 		right: 8px;
 		padding: 3px 8px;
