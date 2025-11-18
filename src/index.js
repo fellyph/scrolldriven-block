@@ -2,7 +2,7 @@ import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, RangeControl, ToggleControl } from '@wordpress/components';
+import { PanelBody, SelectControl, RangeControl } from '@wordpress/components';
 import { dispatch } from '@wordpress/data';
 
 import './style.css';
@@ -90,7 +90,7 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
       return <BlockEdit {...props} />;
     }
     const {
-      attributes: { 
+      attributes: {
         animationType = 'none',
         animationRange = 'default',
         animationEntryStart = 20,
@@ -112,9 +112,13 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
               value={animationType}
               options={ANIMATION_OPTIONS}
               onChange={(value) => setAttributes({ animationType: value })}
-              help={animationType.includes('in-out') ? __('🔄 This animation plays on both entry and exit', 'my-scroll-block') : ''}
+              help={
+                animationType.includes('in-out')
+                  ? __('🔄 This animation plays on both entry and exit', 'my-scroll-block')
+                  : ''
+              }
             />
-            
+
             {animationType !== 'none' && (
               <>
                 <SelectControl
@@ -162,7 +166,7 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
                       step={5}
                       help={__('When to complete the entry animation', 'my-scroll-block')}
                     />
-                    
+
                     {isInOutAnimation && (
                       <>
                         <RangeControl
@@ -207,7 +211,7 @@ addFilter(
     if (!SUPPORTED_BLOCKS.includes(blockType.name)) {
       return extraProps;
     }
-    const { 
+    const {
       animationType = 'none',
       animationRange = 'default',
       animationEntryStart = 20,
@@ -215,7 +219,7 @@ addFilter(
       animationExitStart = 0,
       animationExitEnd = 100,
     } = attributes;
-    
+
     if (animationType === 'none') {
       return extraProps;
     }
@@ -231,7 +235,7 @@ addFilter(
 
     extraProps['data-scroll-anim'] = '1';
     extraProps['data-anim-range'] = animationRange;
-    
+
     // Add custom range values as data attributes if using custom range
     if (animationRange === 'custom') {
       extraProps['data-entry-start'] = animationEntryStart;
@@ -255,7 +259,7 @@ addFilter(
       if (!SUPPORTED_BLOCKS.includes(props.name)) {
         return <BlockListBlock {...props} />;
       }
-      const { 
+      const {
         animationType = 'none',
         animationRange = 'default',
         animationEntryStart = 20,
@@ -263,9 +267,9 @@ addFilter(
         animationExitStart = 0,
         animationExitEnd = 100,
       } = props.attributes;
-      
+
       const extraProps = {};
-      
+
       if (animationType !== 'none') {
         extraProps.className = [
           props.className,
@@ -276,7 +280,7 @@ addFilter(
           .join(' ');
         extraProps['data-scroll-anim'] = '1';
         extraProps['data-anim-range'] = animationRange;
-        
+
         if (animationRange === 'custom') {
           extraProps['data-entry-start'] = animationEntryStart;
           extraProps['data-entry-end'] = animationEntryEnd;
