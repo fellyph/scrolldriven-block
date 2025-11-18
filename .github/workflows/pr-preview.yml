@@ -23,4 +23,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           mode: 'append-to-description'
           plugin-path: .
-          blueprint-url: ./blueprint.json
+          blueprint-url: https://raw.githubusercontent.com/fellyph/scrolldriven-block/refs/heads/main/blueprint.json
