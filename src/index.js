@@ -2,7 +2,7 @@ import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, RangeControl } from '@wordpress/components';
+import { PanelBody, SelectControl, RangeControl, ToggleControl } from '@wordpress/components';
 import { dispatch } from '@wordpress/data';
 
 import './style.css';
@@ -32,10 +32,14 @@ const ANIMATION_OPTIONS = [
 	{ label: __('Scale Up', 'my-scroll-block'), value: 'scale-up' },
 	{ label: __('Rotate In', 'my-scroll-block'), value: 'rotate-in' },
 	{ label: __('Blur In', 'my-scroll-block'), value: 'blur-in' },
+	{ label: __('3D Rotate In', 'my-scroll-block'), value: 'rotate-3d-in' },
+	{ label: __('Circle Reveal', 'my-scroll-block'), value: 'circle-reveal' },
+	{ label: __('Curtain Reveal', 'my-scroll-block'), value: 'curtain-reveal' },
 	{ label: __('🔄 Fade In & Out', 'my-scroll-block'), value: 'fade-in-out' },
 	{ label: __('🔄 Slide Up In & Out', 'my-scroll-block'), value: 'slide-up-in-out' },
 	{ label: __('🔄 Scale In & Out', 'my-scroll-block'), value: 'scale-in-out' },
 	{ label: __('🔄 Rotate In & Out', 'my-scroll-block'), value: 'rotate-in-out' },
+	{ label: __('🔄 3D Rotate In & Out', 'my-scroll-block'), value: 'rotate-3d-in-out' },
 ];
 
 const RANGE_OPTIONS = [
@@ -79,6 +83,14 @@ addFilter('blocks.registerBlockType', 'my-scroll-block/extend-attributes', (sett
 				type: 'number',
 				default: 100,
 			},
+			parallaxEnabled: {
+				type: 'boolean',
+				default: false,
+			},
+			parallaxStrength: {
+				type: 'number',
+				default: 50,
+			},
 		},
 	};
 });
@@ -97,6 +109,8 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
 				animationEntryEnd = 100,
 				animationExitStart = 0,
 				animationExitEnd = 100,
+				parallaxEnabled = false,
+				parallaxStrength = 50,
 			},
 			setAttributes,
 		} = props;
@@ -219,6 +233,26 @@ const withAnimationControls = createHigherOrderComponent((BlockEdit) => {
 								)}
 							</>
 						)}
+
+
+						<ToggleControl
+							label={__('Enable Parallax Effect', 'my-scroll-block')}
+							checked={parallaxEnabled}
+							onChange={(value) => setAttributes({ parallaxEnabled: value })}
+							help={__('Adds a parallax scrolling effect to the block background or content.', 'my-scroll-block')}
+						/>
+
+						{parallaxEnabled && (
+							<RangeControl
+								label={__('Parallax Strength', 'my-scroll-block')}
+								value={parallaxStrength}
+								onChange={(value) => setAttributes({ parallaxStrength: value })}
+								min={10}
+								max={200}
+								step={10}
+								help={__('Higher values create more movement.', 'my-scroll-block')}
+							/>
+						)}
 					</PanelBody>
 				</InspectorControls>
 				<BlockEdit {...props} />
@@ -244,9 +278,11 @@ addFilter(
 			animationEntryEnd = 100,
 			animationExitStart = 0,
 			animationExitEnd = 100,
+			parallaxEnabled = false,
+			parallaxStrength = 50,
 		} = attributes;
 
-		if (animationType === 'none') {
+		if (animationType === 'none' && !parallaxEnabled) {
 			return extraProps;
 		}
 
@@ -272,6 +308,15 @@ addFilter(
 			}
 		}
 
+		if (parallaxEnabled) {
+			extraProps['data-parallax'] = '1';
+			extraProps['data-parallax-strength'] = parallaxStrength;
+			extraProps.style = {
+				...extraProps.style,
+				'--parallax-strength': `${parallaxStrength}px`,
+			};
+		}
+
 		return extraProps;
 	}
 );
@@ -292,6 +337,8 @@ addFilter(
 				animationEntryEnd = 100,
 				animationExitStart = 0,
 				animationExitEnd = 100,
+				parallaxEnabled = false,
+				parallaxStrength = 50,
 			} = props.attributes;
 
 			const extraProps = {};
@@ -315,6 +362,16 @@ addFilter(
 						extraProps['data-exit-end'] = animationExitEnd;
 					}
 				}
+			}
+
+
+			if (parallaxEnabled) {
+				extraProps['data-parallax'] = '1';
+				extraProps['data-parallax-strength'] = parallaxStrength;
+				extraProps.style = {
+					...props.style,
+					'--parallax-strength': `${parallaxStrength}px`,
+				};
 			}
 			return <BlockListBlock {...props} {...extraProps} />;
 		};
@@ -345,9 +402,9 @@ addFilter(
 			if (!SUPPORTED_BLOCKS.includes(props.name)) {
 				return <BlockListBlock {...props} />;
 			}
-			const { animationType = 'none' } = props.attributes;
+			const { animationType = 'none', parallaxEnabled = false } = props.attributes;
 
-			if (animationType === 'none') {
+			if (animationType === 'none' && !parallaxEnabled) {
 				return <BlockListBlock {...props} />;
 			}
 
