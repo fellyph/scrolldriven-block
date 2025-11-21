@@ -17,12 +17,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+// Include the error logger
+require_once plugin_dir_path( __FILE__ ) . 'error-logger.php';
+
 /**
  * Registers the Reading Progress block.
  */
 function my_scroll_block_register_blocks() {
+	// Log initialization
+	msb_log_info( 'Registering scroll blocks' );
+
 	// Register the Reading Progress block
-	register_block_type( __DIR__ . '/src/progress-block/block.json' );
+	$result = register_block_type( __DIR__ . '/src/progress-block/block.json' );
+
+	if ( false === $result ) {
+		msb_log_error_message( 'Failed to register progress block', array(
+			'block_json' => __DIR__ . '/src/progress-block/block.json'
+		) );
+	} else {
+		msb_log_debug( 'Progress block registered successfully' );
+	}
 }
 add_action( 'init', 'my_scroll_block_register_blocks' );
 
@@ -36,6 +50,7 @@ function my_scroll_block_register_assets() {
 	$editor_asset_path = $dir . 'build/index.asset.php';
 	if ( file_exists( $editor_asset_path ) ) {
 		$editor_asset = include $editor_asset_path;
+		msb_log_debug( 'Editor assets loaded successfully' );
 		wp_register_script(
 			'my-scroll-block-editor',
 			plugins_url( 'build/index.js', __FILE__ ),
@@ -97,6 +112,13 @@ add_action( 'enqueue_block_editor_assets', function() {
 add_filter( 'render_block', function( $block_content, $block ) {
 	if ( empty( $block['attrs'] ) || ! is_array( $block['attrs'] ) ) {
 		return $block_content;
+	}
+
+	// Log potential issues with block attributes
+	if ( ! is_array( $block['attrs'] ) ) {
+		msb_log_warning( 'Block attributes are not an array', array(
+			'block_name' => isset( $block['blockName'] ) ? $block['blockName'] : 'unknown'
+		) );
 	}
 	$attrs = $block['attrs'];
 	if ( isset( $attrs['animationType'] ) && 'none' !== $attrs['animationType'] ) {
