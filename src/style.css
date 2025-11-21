@@ -7,451 +7,444 @@
 
 /* Base defaults */
 @property --anim-displacement-horizontal {
-	syntax: "<length>";
-	inherits: true;
-	initial-value: 10vw;
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 10vw;
 }
 
 @property --anim-displacement-vertical {
-	syntax: "<length>";
-	inherits: true;
-	initial-value: 5vh;
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 5vh;
 }
 
 @property --parallax-strength {
-	syntax: "<length>";
-	inherits: true;
-	initial-value: 50px;
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 50px;
 }
 
 @supports (animation-timeline: view()) {
+  /* Entry-only animations */
+  .scroll-anim-fade-in,
+  .scroll-anim-slide-in-left,
+  .scroll-anim-slide-in-right,
+  .scroll-anim-slide-in-up,
+  .scroll-anim-slide-in-down,
+  .scroll-anim-scale-up,
+  .scroll-anim-rotate-in,
+  .scroll-anim-blur-in,
+  .scroll-anim-rotate-3d-in,
+  .scroll-anim-circle-reveal,
+  .scroll-anim-curtain-reveal {
+    animation-timeline: view();
+    animation-range: entry 20% cover 100%;
+  }
 
-	/* Entry-only animations */
-	.scroll-anim-fade-in,
-	.scroll-anim-slide-in-left,
-	.scroll-anim-slide-in-right,
-	.scroll-anim-slide-in-up,
-	.scroll-anim-slide-in-down,
-	.scroll-anim-scale-up,
-	.scroll-anim-rotate-in,
-	.scroll-anim-blur-in,
-	.scroll-anim-rotate-3d-in,
-	.scroll-anim-circle-reveal,
-	.scroll-anim-curtain-reveal {
-		animation-timeline: view();
-		animation-range: entry 20% cover 100%;
-	}
+  /* Quick timing preset */
+  [data-anim-range='quick'].scroll-anim-fade-in,
+  [data-anim-range='quick'].scroll-anim-slide-in-left,
+  [data-anim-range='quick'].scroll-anim-slide-in-right,
+  [data-anim-range='quick'].scroll-anim-slide-in-up,
+  [data-anim-range='quick'].scroll-anim-slide-in-down,
+  [data-anim-range='quick'].scroll-anim-scale-up,
+  [data-anim-range='quick'].scroll-anim-rotate-in,
+  [data-anim-range='quick'].scroll-anim-blur-in,
+  [data-anim-range='quick'].scroll-anim-rotate-3d-in,
+  [data-anim-range='quick'].scroll-anim-circle-reveal,
+  [data-anim-range='quick'].scroll-anim-curtain-reveal {
+    animation-range: entry 0% cover 50%;
+  }
 
-	/* Quick timing preset */
-	[data-anim-range="quick"].scroll-anim-fade-in,
-	[data-anim-range="quick"].scroll-anim-slide-in-left,
-	[data-anim-range="quick"].scroll-anim-slide-in-right,
-	[data-anim-range="quick"].scroll-anim-slide-in-up,
-	[data-anim-range="quick"].scroll-anim-slide-in-down,
-	[data-anim-range="quick"].scroll-anim-scale-up,
-	[data-anim-range="quick"].scroll-anim-rotate-in,
-	[data-anim-range="quick"].scroll-anim-blur-in,
-	[data-anim-range="quick"].scroll-anim-rotate-3d-in,
-	[data-anim-range="quick"].scroll-anim-circle-reveal,
-	[data-anim-range="quick"].scroll-anim-curtain-reveal {
-		animation-range: entry 0% cover 50%;
-	}
+  /* Slow timing preset */
+  [data-anim-range='slow'].scroll-anim-fade-in,
+  [data-anim-range='slow'].scroll-anim-slide-in-left,
+  [data-anim-range='slow'].scroll-anim-slide-in-right,
+  [data-anim-range='slow'].scroll-anim-slide-in-up,
+  [data-anim-range='slow'].scroll-anim-slide-in-down,
+  [data-anim-range='slow'].scroll-anim-scale-up,
+  [data-anim-range='slow'].scroll-anim-rotate-in,
+  [data-anim-range='slow'].scroll-anim-blur-in,
+  [data-anim-range='slow'].scroll-anim-rotate-3d-in,
+  [data-anim-range='slow'].scroll-anim-circle-reveal,
+  [data-anim-range='slow'].scroll-anim-curtain-reveal {
+    animation-range: entry 10% cover 100%;
+  }
 
-	/* Slow timing preset */
-	[data-anim-range="slow"].scroll-anim-fade-in,
-	[data-anim-range="slow"].scroll-anim-slide-in-left,
-	[data-anim-range="slow"].scroll-anim-slide-in-right,
-	[data-anim-range="slow"].scroll-anim-slide-in-up,
-	[data-anim-range="slow"].scroll-anim-slide-in-down,
-	[data-anim-range="slow"].scroll-anim-scale-up,
-	[data-anim-range="slow"].scroll-anim-rotate-in,
-	[data-anim-range="slow"].scroll-anim-blur-in,
-	[data-anim-range="slow"].scroll-anim-rotate-3d-in,
-	[data-anim-range="slow"].scroll-anim-circle-reveal,
-	[data-anim-range="slow"].scroll-anim-curtain-reveal {
-		animation-range: entry 10% cover 100%;
-	}
+  /* Late start timing preset */
+  [data-anim-range='late'].scroll-anim-fade-in,
+  [data-anim-range='late'].scroll-anim-slide-in-left,
+  [data-anim-range='late'].scroll-anim-slide-in-right,
+  [data-anim-range='late'].scroll-anim-slide-in-up,
+  [data-anim-range='late'].scroll-anim-slide-in-down,
+  [data-anim-range='late'].scroll-anim-scale-up,
+  [data-anim-range='late'].scroll-anim-rotate-in,
+  [data-anim-range='late'].scroll-anim-blur-in,
+  [data-anim-range='late'].scroll-anim-rotate-3d-in,
+  [data-anim-range='late'].scroll-anim-circle-reveal,
+  [data-anim-range='late'].scroll-anim-curtain-reveal {
+    animation-range: entry 50% cover 100%;
+  }
 
-	/* Late start timing preset */
-	[data-anim-range="late"].scroll-anim-fade-in,
-	[data-anim-range="late"].scroll-anim-slide-in-left,
-	[data-anim-range="late"].scroll-anim-slide-in-right,
-	[data-anim-range="late"].scroll-anim-slide-in-up,
-	[data-anim-range="late"].scroll-anim-slide-in-down,
-	[data-anim-range="late"].scroll-anim-scale-up,
-	[data-anim-range="late"].scroll-anim-rotate-in,
-	[data-anim-range="late"].scroll-anim-blur-in,
-	[data-anim-range="late"].scroll-anim-rotate-3d-in,
-	[data-anim-range="late"].scroll-anim-circle-reveal,
-	[data-anim-range="late"].scroll-anim-curtain-reveal {
-		animation-range: entry 50% cover 100%;
-	}
+  /* In-and-out animations */
+  .scroll-anim-fade-in-out,
+  .scroll-anim-slide-up-in-out,
+  .scroll-anim-scale-in-out,
+  .scroll-anim-rotate-in-out,
+  .scroll-anim-rotate-3d-in-out {
+    animation-timeline: view();
+  }
 
-	/* In-and-out animations */
-	.scroll-anim-fade-in-out,
-	.scroll-anim-slide-up-in-out,
-	.scroll-anim-scale-in-out,
-	.scroll-anim-rotate-in-out,
-	.scroll-anim-rotate-3d-in-out {
-		animation-timeline: view();
-	}
-
-	/* Parallax Effect */
-	[data-parallax="1"] {
-		animation-name: scrollParallax;
-		animation-timeline: scroll(root block);
-		animation-range: 0% 100%;
-	}
+  /* Parallax Effect */
+  [data-parallax='1'] {
+    animation-name: scrollParallax;
+    animation-timeline: scroll(root block);
+    animation-range: 0% 100%;
+  }
 }
 
 /* Apply animations - Entry Only */
 .scroll-anim-fade-in {
-	animation-name: scrollFadeIn;
-	opacity: 0;
-	transform: translateY(var(--anim-displacement-vertical));
+  animation-name: scrollFadeIn;
+  opacity: 0;
+  transform: translateY(var(--anim-displacement-vertical));
 }
 
 .scroll-anim-slide-in-left {
-	animation-name: scrollSlideInLeft;
-	opacity: 0;
-	transform: translateX(calc(-1 * var(--anim-displacement-horizontal)));
+  animation-name: scrollSlideInLeft;
+  opacity: 0;
+  transform: translateX(calc(-1 * var(--anim-displacement-horizontal)));
 }
 
 .scroll-anim-slide-in-right {
-	animation-name: scrollSlideInRight;
-	opacity: 0;
-	transform: translateX(var(--anim-displacement-horizontal));
+  animation-name: scrollSlideInRight;
+  opacity: 0;
+  transform: translateX(var(--anim-displacement-horizontal));
 }
 
 .scroll-anim-slide-in-up {
-	animation-name: scrollSlideInUp;
-	opacity: 0;
-	transform: translateY(var(--anim-displacement-vertical));
+  animation-name: scrollSlideInUp;
+  opacity: 0;
+  transform: translateY(var(--anim-displacement-vertical));
 }
 
 .scroll-anim-slide-in-down {
-	animation-name: scrollSlideInDown;
-	opacity: 0;
-	transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
+  animation-name: scrollSlideInDown;
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
 }
 
 .scroll-anim-scale-up {
-	animation-name: scrollScaleUp;
-	opacity: 0;
-	transform: scale(0.3);
+  animation-name: scrollScaleUp;
+  opacity: 0;
+  transform: scale(0.3);
 }
 
 .scroll-anim-rotate-in {
-	animation-name: scrollRotateIn;
-	opacity: 0;
-	transform: rotate(25deg);
+  animation-name: scrollRotateIn;
+  opacity: 0;
+  transform: rotate(25deg);
 }
 
 .scroll-anim-blur-in {
-	animation-name: scrollBlurIn;
-	opacity: 0;
-	filter: blur(10px);
+  animation-name: scrollBlurIn;
+  opacity: 0;
+  filter: blur(10px);
 }
 
 .scroll-anim-rotate-3d-in {
-	animation-name: scrollRotate3DIn;
-	opacity: 0;
-	transform: perspective(1000px) rotateX(45deg);
+  animation-name: scrollRotate3DIn;
+  opacity: 0;
+  transform: perspective(1000px) rotateX(45deg);
 }
 
 .scroll-anim-circle-reveal {
-	animation-name: scrollCircleReveal;
-	clip-path: circle(0% at 50% 50%);
+  animation-name: scrollCircleReveal;
+  clip-path: circle(0% at 50% 50%);
 }
 
 .scroll-anim-curtain-reveal {
-	animation-name: scrollCurtainReveal;
-	clip-path: inset(0 50% 0 50%);
+  animation-name: scrollCurtainReveal;
+  clip-path: inset(0 50% 0 50%);
 }
 
 /* Apply animations - In and Out */
 .scroll-anim-fade-in-out {
-	animation-name: scrollFadeInOut;
+  animation-name: scrollFadeInOut;
 }
 
 .scroll-anim-slide-up-in-out {
-	animation-name: scrollSlideUpInOut;
+  animation-name: scrollSlideUpInOut;
 }
 
 .scroll-anim-scale-in-out {
-	animation-name: scrollScaleInOut;
+  animation-name: scrollScaleInOut;
 }
 
 .scroll-anim-rotate-in-out {
-	animation-name: scrollRotateInOut;
+  animation-name: scrollRotateInOut;
 }
 
 .scroll-anim-rotate-3d-in-out {
-	animation-name: scrollRotate3DInOut;
+  animation-name: scrollRotate3DInOut;
 }
 
 /* CSS animations using keyframes - Entry Only */
 @keyframes scrollFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--anim-displacement-vertical));
+  }
 
-	from {
-		opacity: 0;
-		transform: translateY(var(--anim-displacement-vertical));
-	}
-
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scrollSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--anim-displacement-horizontal)));
+  }
 
-	from {
-		opacity: 0;
-		transform: translateX(calc(-1 * var(--anim-displacement-horizontal)));
-	}
-
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes scrollSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(var(--anim-displacement-horizontal));
+  }
 
-	from {
-		opacity: 0;
-		transform: translateX(var(--anim-displacement-horizontal));
-	}
-
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 @keyframes scrollSlideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(var(--anim-displacement-vertical));
+  }
 
-	from {
-		opacity: 0;
-		transform: translateY(var(--anim-displacement-vertical));
-	}
-
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scrollSlideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
+  }
 
-	from {
-		opacity: 0;
-		transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
-	}
-
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scrollScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
 
-	from {
-		opacity: 0;
-		transform: scale(0.3);
-	}
-
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes scrollRotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(25deg);
+  }
 
-	from {
-		opacity: 0;
-		transform: rotate(25deg);
-	}
-
-	to {
-		opacity: 1;
-		transform: rotate(0);
-	}
+  to {
+    opacity: 1;
+    transform: rotate(0);
+  }
 }
 
 @keyframes scrollBlurIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+  }
 
-	from {
-		opacity: 0;
-		filter: blur(10px);
-	}
-
-	to {
-		opacity: 1;
-		filter: blur(0);
-	}
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 @keyframes scrollRotate3DIn {
-	from {
-		opacity: 0;
-		transform: perspective(1000px) rotateX(45deg);
-	}
-	to {
-		opacity: 1;
-		transform: perspective(1000px) rotateX(0);
-	}
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(45deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0);
+  }
 }
 
 @keyframes scrollCircleReveal {
-	from {
-		clip-path: circle(0% at 50% 50%);
-	}
-	to {
-		clip-path: circle(100% at 50% 50%);
-	}
+  from {
+    clip-path: circle(0% at 50% 50%);
+  }
+
+  to {
+    clip-path: circle(100% at 50% 50%);
+  }
 }
 
 @keyframes scrollCurtainReveal {
-	from {
-		clip-path: inset(0 50% 0 50%);
-	}
-	to {
-		clip-path: inset(0 0 0 0);
-	}
+  from {
+    clip-path: inset(0 50% 0 50%);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 /* CSS animations using keyframes - In and Out */
 @keyframes scrollFadeInOut {
+  entry 0% {
+    opacity: 0;
+    transform: translateY(var(--anim-displacement-vertical));
+  }
 
-	entry 0% {
-		opacity: 0;
-		transform: translateY(var(--anim-displacement-vertical));
-	}
+  entry 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-	entry 100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  exit 0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-	exit 0% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-
-	exit 100% {
-		opacity: 0;
-		transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
-	}
+  exit 100% {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
+  }
 }
 
 @keyframes scrollSlideUpInOut {
+  entry 0% {
+    opacity: 0;
+    transform: translateY(var(--anim-displacement-vertical));
+  }
 
-	entry 0% {
-		opacity: 0;
-		transform: translateY(var(--anim-displacement-vertical));
-	}
+  entry 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-	entry 100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  exit 0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-	exit 0% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-
-	exit 100% {
-		opacity: 0;
-		transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
-	}
+  exit 100% {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--anim-displacement-vertical)));
+  }
 }
 
 @keyframes scrollScaleInOut {
+  entry 0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
 
-	entry 0% {
-		opacity: 0;
-		transform: scale(0.3);
-	}
+  entry 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 
-	entry 100% {
-		opacity: 1;
-		transform: scale(1);
-	}
+  exit 0% {
+    opacity: 1;
+    transform: scale(1);
+  }
 
-	exit 0% {
-		opacity: 1;
-		transform: scale(1);
-	}
-
-	exit 100% {
-		opacity: 0;
-		transform: scale(0.3);
-	}
+  exit 100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
 }
 
 @keyframes scrollRotateInOut {
+  entry 0% {
+    opacity: 0;
+    transform: rotate(-25deg);
+  }
 
-	entry 0% {
-		opacity: 0;
-		transform: rotate(-25deg);
-	}
+  entry 100% {
+    opacity: 1;
+    transform: rotate(0);
+  }
 
-	entry 100% {
-		opacity: 1;
-		transform: rotate(0);
-	}
+  exit 0% {
+    opacity: 1;
+    transform: rotate(0);
+  }
 
-	exit 0% {
-		opacity: 1;
-		transform: rotate(0);
-	}
-
-	exit 100% {
-		opacity: 0;
-		transform: rotate(25deg);
-	}
+  exit 100% {
+    opacity: 0;
+    transform: rotate(25deg);
+  }
 }
 
 @keyframes scrollRotate3DInOut {
-	entry 0% {
-		opacity: 0;
-		transform: perspective(1000px) rotateX(-45deg);
-	}
-	entry 100% {
-		opacity: 1;
-		transform: perspective(1000px) rotateX(0);
-	}
-	exit 0% {
-		opacity: 1;
-		transform: perspective(1000px) rotateX(0);
-	}
-	exit 100% {
-		opacity: 0;
-		transform: perspective(1000px) rotateX(45deg);
-	}
+  entry 0% {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(-45deg);
+  }
+
+  entry 100% {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0);
+  }
+
+  exit 0% {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0);
+  }
+
+  exit 100% {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(45deg);
+  }
 }
 
 @keyframes scrollParallax {
-	from {
-		transform: translateY(0);
-	}
-	to {
-		transform: translateY(var(--parallax-strength));
-	}
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(var(--parallax-strength));
+  }
 }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-
-	[data-scroll-anim] {
-		animation: none !important;
-		transition: none !important;
-		opacity: 1 !important;
-		transform: none !important;
-	}
+  [data-scroll-anim] {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

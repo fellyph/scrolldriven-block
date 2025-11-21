@@ -29,11 +29,13 @@ A Reading Progress Bar é uma barra fixa que acompanha automaticamente o progres
 ## ✨ Funcionalidades
 
 ### 1. **Rastreamento Automático de Scroll**
+
 - Usa `animation-timeline: scroll(root block)`
 - Sincronizado perfeitamente com o scroll nativo do navegador
 - Performance otimizada (roda off main thread)
 
 ### 2. **Personalização Completa**
+
 - **Cor da Barra** - Escolha qualquer cor (com suporte a alpha/transparência)
 - **Cor de Fundo** - Cor da trilha de fundo
 - **Altura** - De 2px a 20px
@@ -41,6 +43,7 @@ A Reading Progress Bar é uma barra fixa que acompanha automaticamente o progres
 - **Mostrar Porcentagem** - Opcional: exibe % de progresso
 
 ### 3. **Sem JavaScript no Frontend**
+
 - 100% CSS puro
 - Melhor performance
 - Funciona mesmo com JavaScript desabilitado
@@ -58,25 +61,30 @@ A Reading Progress Bar é uma barra fixa que acompanha automaticamente o progres
 No painel lateral, você verá as seguintes opções:
 
 #### **Position** (Posição)
+
 - `Top` - Barra no topo da página (padrão)
 - `Bottom` - Barra no rodapé da página
 
 #### **Bar Height** (Altura da Barra)
+
 - Slider de 2px a 20px
 - Padrão: 4px
 - Recomendado: 3-6px para mobile, 4-8px para desktop
 
 #### **Progress Bar Color** (Cor da Barra)
+
 - Color picker completo
 - Suporte a alpha (transparência)
 - Padrão: `#3858e9` (azul)
 
 #### **Background Color** (Cor de Fundo)
+
 - Color picker para a trilha de fundo
 - Padrão: `#e0e0e0` (cinza claro)
 - Dica: Use transparência para efeito sutil
 
 #### **Show Percentage** (Mostrar Porcentagem)
+
 - Toggle on/off
 - Exibe número de % no canto direito
 - Aparece ao passar o mouse
@@ -91,6 +99,7 @@ No painel lateral, você verá as seguintes opções:
 ## 💻 Exemplos de Uso
 
 ### Exemplo 1: Blog Post Simples
+
 ```
 Configuração:
 - Position: Top
@@ -103,6 +112,7 @@ Resultado: Barra discreta no topo que acompanha a leitura
 ```
 
 ### Exemplo 2: Artigo Longo com Porcentagem
+
 ```
 Configuração:
 - Position: Top
@@ -115,6 +125,7 @@ Resultado: Barra mais visível com indicador de % ao hover
 ```
 
 ### Exemplo 3: Design Minimalista
+
 ```
 Configuração:
 - Position: Bottom
@@ -127,6 +138,7 @@ Resultado: Linha fina e discreta na parte inferior
 ```
 
 ### Exemplo 4: High Contrast
+
 ```
 Configuração:
 - Position: Top
@@ -143,10 +155,12 @@ Resultado: Barra chamativa para dashboards ou apps
 ### HTML Renderizado
 
 ```html
-<div class="reading-progress-container position-top" 
-     style="--progress-bar-color: #3858e9; 
+<div
+  class="reading-progress-container position-top"
+  style="--progress-bar-color: #3858e9; 
             --progress-bar-height: 4px; 
-            --progress-bg-color: #e0e0e0;">
+            --progress-bg-color: #e0e0e0;"
+>
   <div class="reading-progress-track">
     <div class="reading-progress-bar"></div>
   </div>
@@ -188,16 +202,17 @@ Resultado: Barra chamativa para dashboards ou apps
 
 ### Diferença: scroll() vs view()
 
-| Feature | `scroll()` | `view()` |
-|---------|-----------|----------|
-| **Base** | Posição do scroll do container | Visibilidade do elemento no viewport |
-| **Uso** | Progress bars, parallax global | Animações de entrada/saída |
-| **Sintaxe** | `scroll(root block)` | `view()` |
-| **Exemplo** | Barra de progresso | Fade in ao aparecer |
+| Feature     | `scroll()`                     | `view()`                             |
+| ----------- | ------------------------------ | ------------------------------------ |
+| **Base**    | Posição do scroll do container | Visibilidade do elemento no viewport |
+| **Uso**     | Progress bars, parallax global | Animações de entrada/saída           |
+| **Sintaxe** | `scroll(root block)`           | `view()`                             |
+| **Exemplo** | Barra de progresso             | Fade in ao aparecer                  |
 
 ## 📱 Responsividade
 
 ### Mobile
+
 ```css
 @media (max-width: 768px) {
   .reading-progress-percentage {
@@ -210,15 +225,16 @@ Resultado: Barra chamativa para dashboards ou apps
 
 ### Recomendações por Dispositivo
 
-| Dispositivo | Altura Recomendada | Posição | Percentage |
-|-------------|-------------------|----------|------------|
-| Mobile | 3-4px | Top | Off |
-| Tablet | 4-6px | Top | Optional |
-| Desktop | 4-8px | Top ou Bottom | On |
+| Dispositivo | Altura Recomendada | Posição       | Percentage |
+| ----------- | ------------------ | ------------- | ---------- |
+| Mobile      | 3-4px              | Top           | Off        |
+| Tablet      | 4-6px              | Top           | Optional   |
+| Desktop     | 4-8px              | Top ou Bottom | On         |
 
 ## ♿ Acessibilidade
 
 ### Reduced Motion
+
 ```css
 @media (prefers-reduced-motion: reduce) {
   .reading-progress-bar {
@@ -228,6 +244,7 @@ Resultado: Barra chamativa para dashboards ou apps
 ```
 
 ### Boas Práticas
+
 - ✅ Não interfere com navegação por teclado
 - ✅ `pointer-events: none` - não bloqueia cliques
 - ✅ Alto contraste disponível
@@ -237,11 +254,13 @@ Resultado: Barra chamativa para dashboards ou apps
 ## 🌐 Compatibilidade de Navegadores
 
 ### Suportado ✅
+
 - **Chrome 115+** - Suporte completo
 - **Edge 115+** - Suporte completo
 - **Opera 101+** - Suporte completo
 
 ### Em Desenvolvimento ⏳
+
 - **Firefox** - Experimental (behind flag)
 - **Safari** - Em desenvolvimento
 
@@ -261,21 +280,25 @@ Para navegadores sem suporte, o CSS inclui uma mensagem informativa:
 ## 🎓 Casos de Uso
 
 ### 1. **Blog Posts & Articles**
+
 - Ajuda leitores a saberem quanto falta
 - Melhora engajamento
 - Reduz bounce rate
 
 ### 2. **Documentation**
+
 - Orientação em docs longos
 - Navegação visual
 - Indicador de progresso em tutoriais
 
 ### 3. **Landing Pages**
+
 - Storytelling com scroll
 - Indicador de seções
 - Visual feedback
 
 ### 4. **E-learning**
+
 - Progresso de leitura de cursos
 - Indicador de conclusão
 - Gamification
@@ -283,24 +306,32 @@ Para navegadores sem suporte, o CSS inclui uma mensagem informativa:
 ## 🔍 Troubleshooting
 
 ### Problema: Barra não aparece
+
 **Solução:**
+
 1. Verifique se está usando Chrome 115+
 2. Publique a página (não funciona no preview)
 3. Certifique-se que há conteúdo suficiente para scroll
 
 ### Problema: Barra fica sempre cheia
+
 **Solução:**
+
 - A página precisa ter scroll vertical
 - Adicione mais conteúdo para ultrapassar a altura da viewport
 
 ### Problema: Barra não sincroniza suavemente
+
 **Solução:**
+
 1. Desabilite extensões do navegador que afetam scroll
 2. Verifique se não há `scroll-behavior: smooth` conflitante
 3. Teste em modo anônimo
 
 ### Problema: Percentage não aparece
+
 **Solução:**
+
 1. Ative "Show Percentage" nas settings
 2. Passe o mouse sobre a barra
 3. Verifique z-index de outros elementos
@@ -308,6 +339,7 @@ Para navegadores sem suporte, o CSS inclui uma mensagem informativa:
 ## 📊 Performance
 
 ### Métricas
+
 - **FPS:** 60fps consistentes (roda off main thread)
 - **CPU:** < 1% de uso adicional
 - **Memory:** ~2KB adicional
@@ -342,7 +374,9 @@ Possíveis melhorias baseadas na documentação:
 ## 💡 Tips & Tricks
 
 ### Tip 1: Posicionamento com Header Fixo
+
 Se você tem um header fixo, ajuste o z-index:
+
 ```css
 .reading-progress-container {
   z-index: 999999; /* Acima do header */
@@ -350,13 +384,17 @@ Se você tem um header fixo, ajuste o z-index:
 ```
 
 ### Tip 2: Combinar com View Animations
+
 Use junto com as animações in-out para efeito completo:
+
 ```
 Progress Bar no topo + Paragraphs com Fade In & Out = ✨ Amazing!
 ```
 
 ### Tip 3: Cores Temáticas
+
 Combine com a identidade visual do site:
+
 ```
 Blog Tech: #3858e9 (azul tech)
 Blog Natureza: #00b894 (verde)
@@ -364,6 +402,7 @@ Blog Minimalista: #2d3436 (preto)
 ```
 
 ### Tip 4: Altura por Contexto
+
 ```
 Mobile: 3px (discreto)
 Desktop: 5px (mais visível)
@@ -379,4 +418,3 @@ O Reading Progress Bar é uma implementação moderna e performática de indicad
 **Criado com base em:** [Chrome Developers - Scroll-Driven Animations](https://developer.chrome.com/docs/css-ui/scroll-driven-animations)  
 **Data:** 10/11/2025  
 **Versão:** 1.0.0
-

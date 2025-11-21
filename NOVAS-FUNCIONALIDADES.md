@@ -67,13 +67,13 @@ Uma nova animação de entrada que usa o efeito de desfoque (blur) para criar tr
 
 ```css
 @keyframes scrollBlurIn {
-  from { 
-    opacity: 0; 
-    filter: blur(10px); 
+  from {
+    opacity: 0;
+    filter: blur(10px);
   }
-  to { 
-    opacity: 1; 
-    filter: blur(0); 
+  to {
+    opacity: 1;
+    filter: blur(0);
   }
 }
 ```
@@ -136,13 +136,15 @@ Novos atributos adicionados aos blocos:
 Os elementos renderizados incluem:
 
 ```html
-<p class="scroll-anim-block scroll-anim-fade-in-out"
-   data-scroll-anim="1"
-   data-anim-range="custom"
-   data-entry-start="20"
-   data-entry-end="100"
-   data-exit-start="0"
-   data-exit-end="100">
+<p
+  class="scroll-anim-block scroll-anim-fade-in-out"
+  data-scroll-anim="1"
+  data-anim-range="custom"
+  data-entry-start="20"
+  data-entry-end="100"
+  data-exit-start="0"
+  data-exit-end="100"
+>
   Conteúdo
 </p>
 ```
@@ -156,8 +158,8 @@ Todas as animações usam `animation-timeline: view()` conforme a especificaçã
   .scroll-anim-fade-in-out {
     animation-timeline: view();
   }
-  
-  [data-anim-range="quick"].scroll-anim-fade-in {
+
+  [data-anim-range='quick'].scroll-anim-fade-in {
     animation-range: entry 0% cover 50%;
   }
 }
@@ -198,12 +200,15 @@ O plugin respeita as preferências de movimento reduzido:
 ## 🎓 Exemplos da Documentação Implementados
 
 ### ✅ Contact List (In-and-Out)
+
 Implementado com as animações "In & Out" - elementos que animam ao entrar E sair.
 
 ### ✅ Animation Range Control
+
 Implementado com os presets de timing e controles custom.
 
 ### ✅ Multiple Timeline Ranges
+
 Implementado com as animações In-and-Out que usam ranges diferentes para entry e exit.
 
 ## 🚀 Próximos Passos Possíveis
@@ -219,4 +224,3 @@ Baseado na documentação, futuras funcionalidades poderiam incluir:
 ---
 
 **Desenvolvido com base na documentação oficial do Chrome e seguindo as melhores práticas de Web Animations API.**
-
