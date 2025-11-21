@@ -3,47 +3,46 @@
  */
 
 .reading-progress-preview {
-	padding: 20px;
-	background: #f9f9f9;
-	border: 2px dashed #ddd;
-	border-radius: 8px;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
 }
 
 .reading-progress-preview .reading-progress-track {
-	margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 
 .reading-progress-info {
-	font-size: 14px;
-	line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .reading-progress-info p {
-	margin: 8px 0;
+  margin: 8px 0;
 }
 
 .reading-progress-info strong {
-	color: #1e1e1e;
-	font-size: 16px;
+  color: #1e1e1e;
+  font-size: 16px;
 }
 
 .reading-progress-info em {
-	color: #666;
-	font-style: normal;
-	background: #e0e0e0;
-	padding: 2px 8px;
-	border-radius: 4px;
-	font-size: 13px;
+  color: #666;
+  font-style: normal;
+  background: #e0e0e0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
 }
 
 /* Block icon in inserter */
 .wp-block-my-scroll-block-reading-progress {
-	min-height: 100px;
+  min-height: 100px;
 }
 
 /* Color picker labels */
 .components-base-control__label {
-	font-weight: 500;
-	margin-bottom: 8px;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
-
