@@ -4,54 +4,68 @@ import { defineConfig, devices } from '@playwright/test';
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-	testDir: './tests',
+  testDir: './tests',
 
-	/* Global setup to start WordPress Playground */
-	globalSetup: './tests/global-setup.ts',
-	globalTeardown: './tests/global-teardown.ts',
+  /* Global setup to start WordPress Playground */
+  globalSetup: './tests/global-setup.ts',
+  globalTeardown: './tests/global-teardown.ts',
 
-	/* Run tests in files in parallel */
-	fullyParallel: true,
+  /* Run tests in files in parallel */
+  fullyParallel: true,
 
-	/* Fail the build on CI if you accidentally left test.only in the source code. */
-	forbidOnly: !!process.env.CI,
+  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  forbidOnly: !!process.env.CI,
 
-	/* Retry on CI only */
-	retries: process.env.CI ? 2 : 0,
+  /* Retry on CI only */
+  retries: process.env.CI ? 2 : 0,
 
-	/* Opt out of parallel tests on CI. */
-	workers: process.env.CI ? 1 : undefined,
+  /* Opt out of parallel tests on CI. */
+  workers: process.env.CI ? 1 : undefined,
 
-	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
-	reporter: 'html',
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  reporter: 'html',
 
-	/* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-	use: {
-		/* Base URL to use in actions like `await page.goto('/')`. */
-		baseURL: 'http://127.0.0.1:9400',
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  use: {
+    /* Base URL to use in actions like `await page.goto('/')`. */
+    baseURL: 'http://127.0.0.1:9400',
 
-		/* Maximum time for each action (e.g. click, fill, etc.) */
-		actionTimeout: 5000,
+    /* Maximum time for each action (e.g. click, fill, etc.) */
+    actionTimeout: 10000,
 
-		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-		trace: 'on-first-retry',
-	},
+    /* Navigation timeout */
+    navigationTimeout: 15000,
 
-	/* Maximum time one test can run for */
-	timeout: 30000,
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: 'on-first-retry',
 
-	/* Configure projects for Chromium only */
-	projects: [
-		{
-			name: 'chromium',
-			use: { ...devices['Desktop Chrome'] },
-		},
-	],
+    /* Take screenshot on failure */
+    screenshot: 'only-on-failure',
 
-	/* Run your local dev server before starting the tests */
-	// webServer: {
-	//   command: 'npm run start',
-	//   url: 'http://127.0.0.1:9400',
-	//   reuseExistingServer: !process.env.CI,
-	// },
+    /* Record video on failure for better debugging */
+    video: 'retain-on-failure',
+  },
+
+  /* Maximum time one test can run for */
+  timeout: 60000,
+
+  /* Expect timeout for assertions */
+  expect: {
+    timeout: 10000,
+  },
+
+  /* Configure projects for Chromium only */
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
+
+  /* Run your local dev server before starting the tests */
+  // webServer: {
+  //   command: 'npm run start',
+  //   url: 'http://127.0.0.1:9400',
+  //   reuseExistingServer: !process.env.CI,
+  // },
 });

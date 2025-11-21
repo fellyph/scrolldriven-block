@@ -32,22 +32,26 @@ A WordPress plugin that adds scroll-driven animation capabilities to core blocks
 ### For Development
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd my-scroll-block
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Build the plugin:
+
 ```bash
 npm run build
 ```
 
 4. Start development mode (with live reload):
+
 ```bash
 npm start
 ```
@@ -55,11 +59,13 @@ npm start
 ### For Production
 
 1. Build the plugin:
+
 ```bash
 npm run build
 ```
 
 2. Create a zip file:
+
 ```bash
 npm run plugin-zip
 ```
@@ -90,16 +96,19 @@ This project uses Playwright with TypeScript for end-to-end testing with WordPre
 ### Setup Tests
 
 1. Install Playwright browsers:
+
 ```bash
 npx playwright install --with-deps chromium
 ```
 
 2. Run tests:
+
 ```bash
 npm test
 ```
 
 3. Check TypeScript types:
+
 ```bash
 npm run typecheck
 ```
@@ -109,6 +118,7 @@ For more details, see [tests/README.md](tests/README.md)
 ### TypeScript Support
 
 Tests are written in TypeScript for:
+
 - ✅ Type safety and error prevention
 - ✅ Better IDE autocomplete
 - ✅ Self-documenting code
@@ -129,6 +139,7 @@ See [TYPESCRIPT_MIGRATION.md](../TYPESCRIPT_MIGRATION.md) for migration details.
 ### On the Frontend
 
 When a block has a scroll animation:
+
 - The plugin adds CSS classes: `scroll-anim-block` and `scroll-anim-{type}`
 - A data attribute `data-scroll-anim="1"` is added
 - CSS scroll timeline rules trigger the animation as you scroll
@@ -156,6 +167,7 @@ my-scroll-block/
 ## Browser Support
 
 This plugin uses modern CSS features including:
+
 - CSS Scroll Timelines
 - View Timeline
 - Animation Timeline
@@ -176,6 +188,7 @@ Contributions are welcome! Please:
 ## Continuous Integration
 
 The project uses GitHub Actions for CI:
+
 - Runs on every push and pull request
 - Tests with Chromium only
 - Uploads test reports on failure
@@ -187,6 +200,7 @@ GPL-2.0-or-later
 ## Credits
 
 Built with:
+
 - [@wordpress/scripts](https://www.npmjs.com/package/@wordpress/scripts)
 - [Playwright](https://playwright.dev/)
 - [WordPress Playground](https://github.com/WordPress/wordpress-playground)
@@ -194,6 +208,7 @@ Built with:
 ## Support
 
 For issues and questions:
+
 - Check the [tests/README.md](tests/README.md) for testing documentation
 - Review existing GitHub issues
 - Create a new issue with detailed information
@@ -201,9 +216,9 @@ For issues and questions:
 ## Changelog
 
 ### 0.1.0
+
 - Initial release
 - Support for 8 animation types
 - Block editor integration
 - CSS scroll timeline animations
 - Playwright test coverage
-
