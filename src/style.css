@@ -18,6 +18,12 @@
 	initial-value: 5vh;
 }
 
+@property --parallax-strength {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 50px;
+}
+
 @supports (animation-timeline: view()) {
 
 	/* Entry-only animations */
@@ -28,7 +34,10 @@
 	.scroll-anim-slide-in-down,
 	.scroll-anim-scale-up,
 	.scroll-anim-rotate-in,
-	.scroll-anim-blur-in {
+	.scroll-anim-blur-in,
+	.scroll-anim-rotate-3d-in,
+	.scroll-anim-circle-reveal,
+	.scroll-anim-curtain-reveal {
 		animation-timeline: view();
 		animation-range: entry 20% cover 100%;
 	}
@@ -41,7 +50,10 @@
 	[data-anim-range="quick"].scroll-anim-slide-in-down,
 	[data-anim-range="quick"].scroll-anim-scale-up,
 	[data-anim-range="quick"].scroll-anim-rotate-in,
-	[data-anim-range="quick"].scroll-anim-blur-in {
+	[data-anim-range="quick"].scroll-anim-blur-in,
+	[data-anim-range="quick"].scroll-anim-rotate-3d-in,
+	[data-anim-range="quick"].scroll-anim-circle-reveal,
+	[data-anim-range="quick"].scroll-anim-curtain-reveal {
 		animation-range: entry 0% cover 50%;
 	}
 
@@ -53,7 +65,10 @@
 	[data-anim-range="slow"].scroll-anim-slide-in-down,
 	[data-anim-range="slow"].scroll-anim-scale-up,
 	[data-anim-range="slow"].scroll-anim-rotate-in,
-	[data-anim-range="slow"].scroll-anim-blur-in {
+	[data-anim-range="slow"].scroll-anim-blur-in,
+	[data-anim-range="slow"].scroll-anim-rotate-3d-in,
+	[data-anim-range="slow"].scroll-anim-circle-reveal,
+	[data-anim-range="slow"].scroll-anim-curtain-reveal {
 		animation-range: entry 10% cover 100%;
 	}
 
@@ -65,7 +80,10 @@
 	[data-anim-range="late"].scroll-anim-slide-in-down,
 	[data-anim-range="late"].scroll-anim-scale-up,
 	[data-anim-range="late"].scroll-anim-rotate-in,
-	[data-anim-range="late"].scroll-anim-blur-in {
+	[data-anim-range="late"].scroll-anim-blur-in,
+	[data-anim-range="late"].scroll-anim-rotate-3d-in,
+	[data-anim-range="late"].scroll-anim-circle-reveal,
+	[data-anim-range="late"].scroll-anim-curtain-reveal {
 		animation-range: entry 50% cover 100%;
 	}
 
@@ -73,8 +91,16 @@
 	.scroll-anim-fade-in-out,
 	.scroll-anim-slide-up-in-out,
 	.scroll-anim-scale-in-out,
-	.scroll-anim-rotate-in-out {
+	.scroll-anim-rotate-in-out,
+	.scroll-anim-rotate-3d-in-out {
 		animation-timeline: view();
+	}
+
+	/* Parallax Effect */
+	[data-parallax="1"] {
+		animation-name: scrollParallax;
+		animation-timeline: scroll(root block);
+		animation-range: 0% 100%;
 	}
 }
 
@@ -127,6 +153,22 @@
 	filter: blur(10px);
 }
 
+.scroll-anim-rotate-3d-in {
+	animation-name: scrollRotate3DIn;
+	opacity: 0;
+	transform: perspective(1000px) rotateX(45deg);
+}
+
+.scroll-anim-circle-reveal {
+	animation-name: scrollCircleReveal;
+	clip-path: circle(0% at 50% 50%);
+}
+
+.scroll-anim-curtain-reveal {
+	animation-name: scrollCurtainReveal;
+	clip-path: inset(0 50% 0 50%);
+}
+
 /* Apply animations - In and Out */
 .scroll-anim-fade-in-out {
 	animation-name: scrollFadeInOut;
@@ -142,6 +184,10 @@
 
 .scroll-anim-rotate-in-out {
 	animation-name: scrollRotateInOut;
+}
+
+.scroll-anim-rotate-3d-in-out {
+	animation-name: scrollRotate3DInOut;
 }
 
 /* CSS animations using keyframes - Entry Only */
@@ -249,6 +295,35 @@
 	}
 }
 
+@keyframes scrollRotate3DIn {
+	from {
+		opacity: 0;
+		transform: perspective(1000px) rotateX(45deg);
+	}
+	to {
+		opacity: 1;
+		transform: perspective(1000px) rotateX(0);
+	}
+}
+
+@keyframes scrollCircleReveal {
+	from {
+		clip-path: circle(0% at 50% 50%);
+	}
+	to {
+		clip-path: circle(100% at 50% 50%);
+	}
+}
+
+@keyframes scrollCurtainReveal {
+	from {
+		clip-path: inset(0 50% 0 50%);
+	}
+	to {
+		clip-path: inset(0 0 0 0);
+	}
+}
+
 /* CSS animations using keyframes - In and Out */
 @keyframes scrollFadeInOut {
 
@@ -339,6 +414,34 @@
 	exit 100% {
 		opacity: 0;
 		transform: rotate(25deg);
+	}
+}
+
+@keyframes scrollRotate3DInOut {
+	entry 0% {
+		opacity: 0;
+		transform: perspective(1000px) rotateX(-45deg);
+	}
+	entry 100% {
+		opacity: 1;
+		transform: perspective(1000px) rotateX(0);
+	}
+	exit 0% {
+		opacity: 1;
+		transform: perspective(1000px) rotateX(0);
+	}
+	exit 100% {
+		opacity: 0;
+		transform: perspective(1000px) rotateX(45deg);
+	}
+}
+
+@keyframes scrollParallax {
+	from {
+		transform: translateY(0);
+	}
+	to {
+		transform: translateY(var(--parallax-strength));
 	}
 }
 
