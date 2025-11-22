@@ -296,10 +296,12 @@
 }
 
 @keyframes scrollRotate3DIn {
+
 	from {
 		opacity: 0;
 		transform: perspective(1000px) rotateX(45deg);
 	}
+
 	to {
 		opacity: 1;
 		transform: perspective(1000px) rotateX(0);
@@ -307,18 +309,22 @@
 }
 
 @keyframes scrollCircleReveal {
+
 	from {
 		clip-path: circle(0% at 50% 50%);
 	}
+
 	to {
 		clip-path: circle(100% at 50% 50%);
 	}
 }
 
 @keyframes scrollCurtainReveal {
+
 	from {
 		clip-path: inset(0 50% 0 50%);
 	}
+
 	to {
 		clip-path: inset(0 0 0 0);
 	}
@@ -418,18 +424,22 @@
 }
 
 @keyframes scrollRotate3DInOut {
+
 	entry 0% {
 		opacity: 0;
 		transform: perspective(1000px) rotateX(-45deg);
 	}
+
 	entry 100% {
 		opacity: 1;
 		transform: perspective(1000px) rotateX(0);
 	}
+
 	exit 0% {
 		opacity: 1;
 		transform: perspective(1000px) rotateX(0);
 	}
+
 	exit 100% {
 		opacity: 0;
 		transform: perspective(1000px) rotateX(45deg);
@@ -437,9 +447,11 @@
 }
 
 @keyframes scrollParallax {
+
 	from {
 		transform: translateY(0);
 	}
+
 	to {
 		transform: translateY(var(--parallax-strength));
 	}
