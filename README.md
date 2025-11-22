@@ -9,6 +9,7 @@ A WordPress plugin that adds scroll-driven animation capabilities to core blocks
 - 🚀 **CSS-Powered**: Uses native CSS scroll timelines for optimal performance
 - ✨ **No JavaScript Required**: Pure CSS animations on the frontend
 - 🔧 **Easy to Use**: Simple dropdown in the block editor settings panel
+- ♿ **Accessible**: Respects `prefers-reduced-motion` for users who need reduced animations
 
 ## Supported Animation Types
 
@@ -173,6 +174,12 @@ This plugin uses modern CSS features including:
 - Animation Timeline
 
 Check [Can I Use](https://caniuse.com/?search=scroll-timeline) for current browser support.
+
+## Accessibility
+
+This plugin respects the `prefers-reduced-motion` system preference. When a user has reduced motion enabled in their operating system settings, all scroll animations are automatically disabled.
+
+For more details, see [Reduced Motion Support Documentation](docs/REDUCED-MOTION.md).
 
 ## Contributing
 
