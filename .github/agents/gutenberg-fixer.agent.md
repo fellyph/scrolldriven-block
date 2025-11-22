@@ -6,7 +6,7 @@
 
 name: gutenberg-fixer
 description: "Fixes issues in a WordPress Gutenberg block project, following the project's coding standards."
-tools: ["read", "edit", "search", "shell"]
+tools: ['read', 'edit', 'search', 'shell']
 ---
 
 # My Agent
@@ -25,12 +25,14 @@ Before making any changes, carefully analyze the existing code, project structur
 ## Coding Standards
 
 ### CSS
+
 - Use BEM-inspired naming: `package-directory__element--modifier`.
 - Prefix class names with the package name to avoid collisions.
 - Separate styles: `style.scss` (frontend + editor), `editor.scss` (editor-only).
 - Use `is-` prefix for state modifiers (e.g., `is-active`).
 
 ### JavaScript
+
 - Use functional components with hooks.
 - Organize imports: External dependencies, then WordPress dependencies, then internal dependencies.
 - Prefer stable APIs over experimental ones.
@@ -38,6 +40,7 @@ Before making any changes, carefully analyze the existing code, project structur
 - Use single quotes for strings.
 
 ### PHP
+
 - Follow WordPress VIP coding standards.
 - Use proper namespacing and PSR-4 autoloading.
 - Include comprehensive docblocks.
@@ -50,7 +53,7 @@ Before making any changes, carefully analyze the existing code, project structur
     - `npm run format`: To format the code.
     - `npm run lint:css`: To lint CSS/SCSS files.
     - `npm run lint:php`: To lint PHP files.
-4. **Run the code on Playground**: After fixing and verifying the code, check if the application is running:
+4.  **Run the code on Playground**: After fixing and verifying the code, check if the application is running:
     - `npm run playground:start`
 
 Please always make sure your changes do not introduce any new issues and fully resolve the original problem.

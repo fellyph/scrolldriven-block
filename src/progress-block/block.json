@@ -1,43 +1,42 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "my-scroll-block/reading-progress",
-	"version": "0.1.0",
-	"title": "Reading Progress Bar",
-	"category": "widgets",
-	"icon": "chart-line",
-	"description": "A scroll-driven progress bar that tracks reading progress on the page.",
-	"keywords": ["progress", "scroll", "reading", "indicator"],
-	"supports": {
-		"html": false,
-		"multiple": false,
-		"reusable": false
-	},
-	"attributes": {
-		"barColor": {
-			"type": "string",
-			"default": "#3858e9"
-		},
-		"barHeight": {
-			"type": "number",
-			"default": 4
-		},
-		"position": {
-			"type": "string",
-			"default": "top"
-		},
-		"backgroundColor": {
-			"type": "string",
-			"default": "#e0e0e0"
-		},
-		"showPercentage": {
-			"type": "boolean",
-			"default": false
-		}
-	},
-	"textdomain": "my-scroll-block",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./editor.css",
-	"style": "file:./style.css"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "my-scroll-block/reading-progress",
+  "version": "0.1.0",
+  "title": "Reading Progress Bar",
+  "category": "widgets",
+  "icon": "chart-line",
+  "description": "A scroll-driven progress bar that tracks reading progress on the page.",
+  "keywords": ["progress", "scroll", "reading", "indicator"],
+  "supports": {
+    "html": false,
+    "multiple": false,
+    "reusable": false
+  },
+  "attributes": {
+    "barColor": {
+      "type": "string",
+      "default": "#3858e9"
+    },
+    "barHeight": {
+      "type": "number",
+      "default": 4
+    },
+    "position": {
+      "type": "string",
+      "default": "top"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": "#e0e0e0"
+    },
+    "showPercentage": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "textdomain": "my-scroll-block",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.css",
+  "style": "file:./style.css"
 }
-
