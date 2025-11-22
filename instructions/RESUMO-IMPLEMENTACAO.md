@@ -28,6 +28,7 @@ Animações que funcionam tanto na entrada quanto na saída do viewport:
 ### 4. 🎛️ Controles Custom Avançados
 
 Quando "Custom" é selecionado:
+
 - Entry Start (%) - Controla início da animação de entrada
 - Entry End (%) - Controla fim da animação de entrada
 - Exit Start (%) - Controla início da animação de saída (apenas in-out)
@@ -36,7 +37,9 @@ Quando "Custom" é selecionado:
 ## 📁 Arquivos Modificados
 
 ### `/src/index.js`
+
 **Mudanças:**
+
 - Adicionados novos imports: `RangeControl`, `ToggleControl`
 - Expandido `ANIMATION_OPTIONS` com 5 novas opções
 - Criado `RANGE_OPTIONS` com 5 presets
@@ -53,7 +56,9 @@ Quando "Custom" é selecionado:
 - Atualizados filtros `getSaveContent.extraProps` e `BlockListBlock` para incluir data attributes de range
 
 ### `/src/style.css`
+
 **Mudanças:**
+
 - Adicionado suporte para `.scroll-anim-blur-in`
 - Adicionadas 4 novas classes in-out:
   - `.scroll-anim-fade-in-out`
@@ -72,7 +77,9 @@ Quando "Custom" é selecionado:
   - `@keyframes scrollRotateInOut`
 
 ### `/my-scroll-block.php`
+
 **Mudanças:**
+
 - Atualizado filtro `render_block` para:
   - Capturar `animationRange` attribute
   - Adicionar `data-anim-range` ao HTML
@@ -110,13 +117,15 @@ Browser executa animações usando scroll-timeline
 ### Exemplo de HTML Renderizado
 
 ```html
-<p class="scroll-anim-block scroll-anim-fade-in-out"
-   data-scroll-anim="1"
-   data-anim-range="custom"
-   data-entry-start="25"
-   data-entry-end="75"
-   data-exit-start="0"
-   data-exit-end="50">
+<p
+  class="scroll-anim-block scroll-anim-fade-in-out"
+  data-scroll-anim="1"
+  data-anim-range="custom"
+  data-entry-start="25"
+  data-entry-end="75"
+  data-exit-start="0"
+  data-exit-end="50"
+>
   Conteúdo do parágrafo
 </p>
 ```
@@ -155,43 +164,54 @@ Browser executa animações usando scroll-timeline
 ## ✅ Testes Realizados
 
 ### Build
+
 ```bash
 npm run build
 ```
+
 **Resultado:** ✅ Compilado com sucesso sem erros
 
 ### Linter
+
 ```bash
 # Verificado automaticamente
 ```
+
 **Resultado:** ✅ Sem erros de lint
 
 ### Verificação de Assets Compilados
 
 **JavaScript:**
+
 ```bash
 grep "Fade In & Out|Blur In" build/index.js
 ```
+
 **Resultado:** ✅ Novas opções presentes no código compilado
 
 **CSS:**
+
 ```bash
 grep "fade-in-out|blur-in" build/style-index.css
 ```
+
 **Resultado:** ✅ Novas classes e keyframes presentes
 
 ## 🚀 Como Testar (Manual)
 
 ### Passo 1: Iniciar WordPress Playground
+
 ```bash
 cd my-scroll-block
 npm run playground:start
 ```
 
 ### Passo 2: Acessar Editor
+
 Navegue para: http://127.0.0.1:9400/wp-admin/post-new.php
 
 ### Passo 3: Testar Animações Simples
+
 1. Adicione um bloco Paragraph
 2. No painel lateral "Scroll Animation":
    - Selecione "Blur In"
@@ -200,6 +220,7 @@ Navegue para: http://127.0.0.1:9400/wp-admin/post-new.php
 4. Publique e visualize
 
 ### Passo 4: Testar Animações In-Out
+
 1. Adicione novo bloco Paragraph
 2. Selecione "🔄 Fade In & Out"
 3. Note o emoji 🔄 indicando animação bidirecional
@@ -207,6 +228,7 @@ Navegue para: http://127.0.0.1:9400/wp-admin/post-new.php
 5. Publique e role para ver entrada E saída
 
 ### Passo 5: Testar Custom Timing
+
 1. Adicione novo bloco
 2. Selecione "🔄 Scale In & Out"
 3. Em "Animation Timing", selecione "Custom"
@@ -232,20 +254,24 @@ Navegue para: http://127.0.0.1:9400/wp-admin/post-new.php
 ## 🎓 Referências da Documentação Implementadas
 
 ### ✅ Implementado: Contact List Pattern
+
 - **Fonte:** [Chrome Docs - Contact List Demo](https://developer.chrome.com/docs/css-ui/scroll-driven-animations#demo_contact_list)
 - **Implementação:** Animações In-and-Out com sintaxe `entry`/`exit`
 
 ### ✅ Implementado: Animation Range Control
+
 - **Fonte:** [Chrome Docs - View Timeline Range](https://developer.chrome.com/docs/css-ui/scroll-driven-animations#view-timelines)
 - **Implementação:** 5 presets + custom sliders
 
 ### ✅ Implementado: Multiple Timeline Ranges
+
 - **Fonte:** [Chrome Docs - Attaching to Multiple Ranges](https://developer.chrome.com/docs/css-ui/scroll-driven-animations#attaching_to_multiple_view_timeline_ranges)
 - **Implementação:** Keyframes com ranges separados para entry e exit
 
 ## 🔄 Compatibilidade
 
 ### Browsers Suportados
+
 - ✅ Chrome 115+
 - ✅ Edge 115+
 - ✅ Opera 101+
@@ -253,6 +279,7 @@ Navegue para: http://127.0.0.1:9400/wp-admin/post-new.php
 - ⏳ Safari (em desenvolvimento)
 
 ### Graceful Degradation
+
 - CSS usa `@supports (animation-timeline: view())`
 - Browsers não suportados: elementos aparecem sem animação
 - Acessibilidade: `@media (prefers-reduced-motion)` respeitado
@@ -275,4 +302,3 @@ A implementação foi concluída com sucesso, adicionando funcionalidades avanç
 
 **Data da implementação:** 10/11/2025  
 **Baseado em:** [Chrome Developers - Scroll-driven Animations](https://developer.chrome.com/docs/css-ui/scroll-driven-animations)
-

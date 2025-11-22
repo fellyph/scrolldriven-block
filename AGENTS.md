@@ -83,10 +83,12 @@ The plugin uses **WordPress block filters** to extend core blocks without creati
 ### CSS Classes & Frontend
 
 **Editor classes:**
+
 - `.scroll-anim-block` - Main animation class
 - `.scroll-anim-{type}` - Specific animation type class
 
 **Frontend rendering:**
+
 - Classes are added by PHP filters in `my-scroll-block.php` (handles dynamic blocks)
 - JavaScript filters in `src/index.js` handle saved block markup in post editor
 - CSS scroll timeline rules in `src/style.css` trigger animations
@@ -103,20 +105,21 @@ Tests use **Playwright + TypeScript + WordPress Playground**:
 - **Blueprint** (`blueprint.json`): Contains the initial data to initiate a WordPress Playground instance for testing
 
 To run tests individually:
+
 ```bash
 npx playwright test scroll-block.spec.ts -g "test-name-pattern"
 ```
 
 ## Key Files & Their Roles
 
-| File | Purpose |
-|------|---------|
-| [my-scroll-block.php](my-scroll-block.php) | Plugin entry point; enqueues assets; applies render_block filter for frontend class/attr injection |
-| [src/index.js](src/index.js) | Block filters for editor integration; attribute registration, UI controls, markup manipulation |
-| [src/style.css](src/style.css) | CSS scroll timeline rules for all animation types |
-| [src/editor.css](src/editor.css) | Editor UI styles (animation indicator, editor preview) |
-| [tests/scroll-block.spec.ts](tests/scroll-block.spec.ts) | End-to-end tests for editor and frontend rendering |
-| [tests/global-setup.ts](tests/global-setup.ts) | WordPress Playground startup with plugin mounting |
+| File                                                     | Purpose                                                                                            |
+| -------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [my-scroll-block.php](my-scroll-block.php)               | Plugin entry point; enqueues assets; applies render_block filter for frontend class/attr injection |
+| [src/index.js](src/index.js)                             | Block filters for editor integration; attribute registration, UI controls, markup manipulation     |
+| [src/style.css](src/style.css)                           | CSS scroll timeline rules for all animation types                                                  |
+| [src/editor.css](src/editor.css)                         | Editor UI styles (animation indicator, editor preview)                                             |
+| [tests/scroll-block.spec.ts](tests/scroll-block.spec.ts) | End-to-end tests for editor and frontend rendering                                                 |
+| [tests/global-setup.ts](tests/global-setup.ts)           | WordPress Playground startup with plugin mounting                                                  |
 
 ## When Making Changes
 
@@ -130,6 +133,7 @@ npx playwright test scroll-block.spec.ts -g "test-name-pattern"
 ### Modifying Block Support
 
 Supported blocks are defined in:
+
 - `SUPPORTED_BLOCKS` constant in [src/index.js](src/index.js)
 - `$supported_blocks` array in [my-scroll-block.php](my-scroll-block.php) (must match)
 
@@ -142,6 +146,7 @@ The animation selector is rendered via `PanelBody` + `SelectControl` components 
 ### Testing New Features
 
 Tests run against a real WordPress instance via WordPress Playground. When adding tests:
+
 1. Use TypeScript for type safety (`npm run typecheck` validates)
 2. Ensure WordPress Playground can reach the feature (auto-login, plugin pre-activated)
 3. Use page selectors that work with WordPress's block editor DOM

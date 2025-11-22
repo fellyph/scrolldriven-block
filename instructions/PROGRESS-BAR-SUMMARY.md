@@ -7,6 +7,7 @@ A new **Reading Progress Bar** block has been successfully implemented using CSS
 ## 📁 Files Created
 
 ### Block Files
+
 ```
 src/progress-block/
 ├── block.json          ✅ Block metadata & attributes
@@ -16,6 +17,7 @@ src/progress-block/
 ```
 
 ### Build Output
+
 ```
 build/progress-block/
 ├── block.json         ✅ Copied block metadata
@@ -26,6 +28,7 @@ build/progress-block/
 ```
 
 ### Documentation
+
 ```
 READING-PROGRESS-BAR.md    ✅ Complete user guide
 PROGRESS-BAR-SUMMARY.md    ✅ This file
@@ -34,21 +37,24 @@ PROGRESS-BAR-SUMMARY.md    ✅ This file
 ## 🎯 Key Features
 
 ### 1. **Scroll Progress Timeline**
+
 - Uses `animation-timeline: scroll(root block)`
 - Tracks document scroll position
 - 100% CSS, no JavaScript needed
 - Runs off main thread for 60fps performance
 
 ### 2. **Customization Options**
-| Option | Type | Default | Range/Options |
-|--------|------|---------|---------------|
-| Position | Select | top | top, bottom |
-| Bar Height | Range | 4px | 2-20px |
-| Bar Color | Color | #3858e9 | Any color + alpha |
-| Background Color | Color | #e0e0e0 | Any color + alpha |
-| Show Percentage | Toggle | false | true/false |
+
+| Option           | Type   | Default | Range/Options     |
+| ---------------- | ------ | ------- | ----------------- |
+| Position         | Select | top     | top, bottom       |
+| Bar Height       | Range  | 4px     | 2-20px            |
+| Bar Color        | Color  | #3858e9 | Any color + alpha |
+| Background Color | Color  | #e0e0e0 | Any color + alpha |
+| Show Percentage  | Toggle | false   | true/false        |
 
 ### 3. **Responsive & Accessible**
+
 - Mobile optimized
 - Respects `prefers-reduced-motion`
 - Non-blocking (pointer-events: none)
@@ -68,16 +74,19 @@ PROGRESS-BAR-SUMMARY.md    ✅ This file
 }
 
 @keyframes progress-bar {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 ```
 
 ### HTML Structure
 
 ```html
-<div class="reading-progress-container position-top" 
-     style="--progress-bar-color: #3858e9;">
+<div class="reading-progress-container position-top" style="--progress-bar-color: #3858e9;">
   <div class="reading-progress-track">
     <div class="reading-progress-bar"></div>
   </div>
@@ -116,6 +125,7 @@ PROGRESS-BAR-SUMMARY.md    ✅ This file
 ## 🎨 Usage Examples
 
 ### Basic Setup
+
 1. Add "Reading Progress Bar" block to post
 2. Configure in sidebar (color, height, position)
 3. Publish
@@ -124,6 +134,7 @@ PROGRESS-BAR-SUMMARY.md    ✅ This file
 ### Recommended Configurations
 
 **Blog Post:**
+
 ```
 Position: Top
 Height: 4px
@@ -133,6 +144,7 @@ Percentage: Off
 ```
 
 **Documentation:**
+
 ```
 Position: Top
 Height: 5px
@@ -142,6 +154,7 @@ Percentage: On
 ```
 
 **Minimal:**
+
 ```
 Position: Bottom
 Height: 2px
@@ -152,28 +165,29 @@ Percentage: Off
 
 ## 🌐 Browser Support
 
-| Browser | Version | Status |
-|---------|---------|--------|
-| Chrome | 115+ | ✅ Full Support |
-| Edge | 115+ | ✅ Full Support |
-| Opera | 101+ | ✅ Full Support |
-| Firefox | Experimental | ⏳ Behind Flag |
-| Safari | In Development | ⏳ Coming Soon |
+| Browser | Version        | Status          |
+| ------- | -------------- | --------------- |
+| Chrome  | 115+           | ✅ Full Support |
+| Edge    | 115+           | ✅ Full Support |
+| Opera   | 101+           | ✅ Full Support |
+| Firefox | Experimental   | ⏳ Behind Flag  |
+| Safari  | In Development | ⏳ Coming Soon  |
 
 ### Fallback
+
 - Displays warning message in unsupported browsers
 - Gracefully degrades (bar hidden but site functional)
 - No errors or broken layouts
 
 ## 📊 Performance Metrics
 
-| Metric | Value |
-|--------|-------|
-| JS Bundle | 4.3KB (minified) |
-| CSS Bundle | 2.3KB (minified) |
-| Runtime CPU | <1% additional |
-| FPS | Consistent 60fps |
-| Render | Off main thread |
+| Metric      | Value            |
+| ----------- | ---------------- |
+| JS Bundle   | 4.3KB (minified) |
+| CSS Bundle  | 2.3KB (minified) |
+| Runtime CPU | <1% additional   |
+| FPS         | Consistent 60fps |
+| Render      | Off main thread  |
 
 ## 🎓 Based On
 
@@ -190,14 +204,14 @@ This implementation follows the official Chrome documentation:
 
 ## 🔄 Difference from View Timeline
 
-| Feature | Scroll Timeline (Progress Bar) | View Timeline (In-Out Animations) |
-|---------|-------------------------------|-----------------------------------|
-| **Tracks** | Document scroll position | Element visibility in viewport |
-| **Use Case** | Progress indicators, parallax | Entry/exit animations |
-| **Syntax** | `scroll(root block)` | `view()` |
-| **Range** | 0% (top) to 100% (bottom) | entry/cover/exit ranges |
-| **Fixed Position** | Usually yes | Usually no |
-| **Multiple Instances** | Typically one per page | Multiple per page |
+| Feature                | Scroll Timeline (Progress Bar) | View Timeline (In-Out Animations) |
+| ---------------------- | ------------------------------ | --------------------------------- |
+| **Tracks**             | Document scroll position       | Element visibility in viewport    |
+| **Use Case**           | Progress indicators, parallax  | Entry/exit animations             |
+| **Syntax**             | `scroll(root block)`           | `view()`                          |
+| **Range**              | 0% (top) to 100% (bottom)      | entry/cover/exit ranges           |
+| **Fixed Position**     | Usually yes                    | Usually no                        |
+| **Multiple Instances** | Typically one per page         | Multiple per page                 |
 
 ## 🚀 Next Steps (Optional Enhancements)
 
@@ -213,10 +227,12 @@ Based on Chrome docs, future features could include:
 ## 📝 Files Modified
 
 ### Existing Files Updated
+
 - `/src/index.js` - Added import for progress block
 - `/my-scroll-block.php` - Added block registration function
 
 ### New Files Created
+
 - `/src/progress-block/block.json`
 - `/src/progress-block/index.js`
 - `/src/progress-block/editor.css`
@@ -261,4 +277,3 @@ npm run playground:start
 **Implementation Date:** November 10, 2025  
 **Based On:** [Chrome Developers - Scroll-Driven Animations](https://developer.chrome.com/docs/css-ui/scroll-driven-animations)  
 **Status:** ✅ Complete & Ready for Production
-

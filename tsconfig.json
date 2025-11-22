@@ -18,17 +18,10 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": [
-    "tests/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist"
-  ],
+  "include": ["tests/**/*.ts"],
+  "exclude": ["node_modules", "build", "dist"],
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
   }
 }
-
