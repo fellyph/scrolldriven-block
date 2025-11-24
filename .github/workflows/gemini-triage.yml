@@ -95,7 +95,7 @@ jobs:
                 ]
               }
             }
-          prompt: '/gemini-triage'
+          prompt: '.github/prompts/gemini-triage.md'
 
   label:
     runs-on: 'ubuntu-latest'
