@@ -127,7 +127,7 @@ jobs:
                 ]
               }
             }
-          prompt: '/gemini-scheduled-triage'
+          prompt: '.github/prompts/gemini-scheduled-triage.md'
 
   label:
     runs-on: 'ubuntu-latest'
