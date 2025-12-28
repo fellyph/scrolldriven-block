@@ -40,11 +40,15 @@ export default defineConfig({
   /* Maximum time one test can run for */
   timeout: 30000,
 
-  /* Configure projects for Chromium only */
+  /* Configure projects for Desktop and Mobile */
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
     },
   ],
 
