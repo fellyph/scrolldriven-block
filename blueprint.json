@@ -5,7 +5,7 @@
     "description": "A WordPress plugin that adds scroll-driven animation capabilities to core blocks using CSS scroll timelines.",
     "author": "Fellyph Cintra"
   },
-  "landingPage": "/wp-admin/edit.php",
+  "landingPage": "/wp-admin/post-new.php",
   "preferredVersions": {
     "php": "8.3",
     "wp": "latest"

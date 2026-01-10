@@ -110,6 +110,7 @@ test.describe('Block Editor - Scroll Animation Panel', () => {
   }: {
     page: Page;
   }) => {
+    // 1. Go directly to the new post editor (as per updated blueprint)
     await page.goto('/wp-admin/post-new.php');
     await setupEditor(page);
 
@@ -123,9 +124,10 @@ test.describe('Block Editor - Scroll Animation Panel', () => {
     const scrollAnimationHeading = page.getByRole('heading', { name: 'Scroll Animation' });
     await expect(scrollAnimationHeading).toBeVisible({ timeout: 10000 });
 
-    // Verify Animation Type dropdown exists
+    // 5. Verify the dropdown is interactive
     const animationTypeSelect = page.getByLabel('Animation Type');
     await expect(animationTypeSelect).toBeVisible();
+    await expect(animationTypeSelect).toBeEnabled();
   });
 
   test('should apply Fade In animation to paragraph', async ({ page }: { page: Page }) => {
