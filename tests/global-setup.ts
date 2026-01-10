@@ -8,7 +8,9 @@ async function globalSetup(): Promise<void> {
   // Use process.cwd() and navigate to plugin directory
   const pluginPath = path.join(process.cwd());
 
-  const cliServer = await runCLI({
+  let cliServer;
+  try {
+    cliServer = await runCLI({
     command: 'server',
     php: '8.3',
     wp: 'latest',
@@ -48,6 +50,11 @@ async function globalSetup(): Promise<void> {
       ],
     },
   });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to start WordPress Playground:', error);
+    throw error;
+  }
 
   // Store the server instance globally for teardown
   (global as any).cliServer = cliServer;
@@ -59,16 +66,27 @@ async function globalSetup(): Promise<void> {
   const maxAttempts = 30;
   const delayMs = 2000;
   let attempts = 0;
+  let lastError: Error | null = null;
 
   while (attempts < maxAttempts) {
     try {
-      const response = await fetch('http://127.0.0.1:9400/wp-admin/');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      const response = await fetch('http://127.0.0.1:9400/wp-admin/', {
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
       if (response.ok || response.status === 302) {
         // eslint-disable-next-line no-console
         console.log(`WordPress is ready after ${attempts + 1} attempt(s)`);
+        lastError = null;
         break;
       }
-    } catch {
+    } catch (error) {
+      lastError = error as Error;
       // Server not ready yet, continue polling
     }
 
@@ -81,6 +99,8 @@ async function globalSetup(): Promise<void> {
   }
 
   if (attempts >= maxAttempts) {
+    // eslint-disable-next-line no-console
+    console.error('Last error:', lastError);
     throw new Error('WordPress Playground failed to start within the expected time');
   }
 
