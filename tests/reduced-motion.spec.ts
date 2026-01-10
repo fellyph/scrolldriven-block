@@ -1,5 +1,75 @@
 import { test, expect, type Page } from '@playwright/test';
 
+/**
+ * Helper function to dismiss the WordPress welcome modal and wait for the editor to be ready
+ */
+async function setupEditor(page: Page): Promise<void> {
+  await page.waitForLoadState('domcontentloaded');
+
+  // Wait for the editor to initialize
+  await page.waitForTimeout(1000);
+
+  // Dismiss the welcome modal if present - try multiple possible buttons
+  const welcomeModalDismissButtons = [
+    page.getByRole('button', { name: 'Get started' }),
+    page.getByRole('button', { name: 'Close', exact: true }),
+    page.locator('.components-modal__screen-overlay button[aria-label="Close"]'),
+    page.locator('.components-modal__header button'),
+  ];
+
+  for (const button of welcomeModalDismissButtons) {
+    try {
+      if (await button.isVisible({ timeout: 2000 })) {
+        await button.click();
+        await page.waitForTimeout(500);
+        break;
+      }
+    } catch {
+      // Button not found or not clickable, try next one
+    }
+  }
+
+  // Wait for any modal to disappear
+  try {
+    await page.waitForSelector('.components-modal__screen-overlay', {
+      state: 'hidden',
+      timeout: 5000,
+    });
+  } catch {
+    // Modal may not exist
+  }
+}
+
+/**
+ * Helper to add a paragraph block and ensure it's selected
+ */
+async function addParagraphBlock(page: Page, text: string): Promise<void> {
+  const editorFrame = page.frameLocator('iframe[name="editor-canvas"]');
+
+  // Wait for the editor canvas to be ready
+  await editorFrame.locator('body').waitFor({ state: 'visible', timeout: 30000 });
+
+  // Click on the add block button or empty paragraph
+  const addBlockButton = editorFrame.getByRole('button', { name: 'Add default block' });
+  const emptyParagraph = editorFrame.locator('p.block-editor-default-block-appender__content');
+
+  try {
+    if (await addBlockButton.isVisible({ timeout: 5000 })) {
+      await addBlockButton.click();
+    } else if (await emptyParagraph.isVisible({ timeout: 2000 })) {
+      await emptyParagraph.click();
+    }
+  } catch {
+    // Try clicking on the editor body
+    await editorFrame.locator('.wp-block-post-content').click();
+  }
+
+  // Wait for the block to be ready and type
+  await page.waitForTimeout(500);
+  await page.keyboard.type(text);
+  await page.waitForTimeout(500);
+}
+
 test.describe('Reduced Motion Support', () => {
   test('should disable animations when prefers-reduced-motion is set', async ({
     page,
@@ -11,28 +81,20 @@ test.describe('Reduced Motion Support', () => {
 
     // Create a post with scroll animation
     await page.goto('/wp-admin/post-new.php');
-    await page.waitForLoadState('domcontentloaded');
-
-    // Close welcome dialog if present
-    const closeButton = page.getByRole('button', { name: 'Close' });
-    if (await closeButton.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await closeButton.click();
-    }
+    await setupEditor(page);
 
     // Create post with animation
     const editorFrame = page.frameLocator('iframe[name="editor-canvas"]');
     const titleBox = editorFrame.getByRole('textbox', { name: 'Add title' });
     await titleBox.fill('Reduced Motion Test', { timeout: 15000 });
 
-    const addBlockButton = editorFrame.getByRole('button', { name: 'Add default block' });
-    await addBlockButton.click({ timeout: 15000 });
+    await addParagraphBlock(page, 'This paragraph should not animate with reduced motion');
 
-    const blockEditor = editorFrame.getByRole('document', { name: /Empty block/ });
-    await blockEditor.fill('This paragraph should not animate with reduced motion', {
-      timeout: 15000,
-    });
+    // Wait for sidebar to be ready
+    await page.waitForTimeout(1000);
 
     const animationTypeSelect = page.getByLabel('Animation Type');
+    await expect(animationTypeSelect).toBeVisible({ timeout: 10000 });
     await animationTypeSelect.selectOption('Fade In');
 
     // Publish the post
@@ -90,29 +152,21 @@ test.describe('Reduced Motion Support', () => {
 
     // Create a post with parallax
     await page.goto('/wp-admin/post-new.php');
-    await page.waitForLoadState('domcontentloaded');
-
-    // Close welcome dialog if present
-    const closeButton = page.getByRole('button', { name: 'Close' });
-    if (await closeButton.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await closeButton.click();
-    }
+    await setupEditor(page);
 
     // Create post
     const editorFrame = page.frameLocator('iframe[name="editor-canvas"]');
     const titleBox = editorFrame.getByRole('textbox', { name: 'Add title' });
     await titleBox.fill('Parallax Reduced Motion Test', { timeout: 15000 });
 
-    const addBlockButton = editorFrame.getByRole('button', { name: 'Add default block' });
-    await addBlockButton.click({ timeout: 15000 });
+    await addParagraphBlock(page, 'This paragraph has parallax disabled with reduced motion');
 
-    const blockEditor = editorFrame.getByRole('document', { name: /Empty block/ });
-    await blockEditor.fill('This paragraph has parallax disabled with reduced motion', {
-      timeout: 15000,
-    });
+    // Wait for sidebar to be ready
+    await page.waitForTimeout(1000);
 
     // Enable parallax
     const parallaxToggle = page.getByLabel('Enable Parallax Effect');
+    await expect(parallaxToggle).toBeVisible({ timeout: 10000 });
     await parallaxToggle.click();
 
     // Publish the post
@@ -163,28 +217,20 @@ test.describe('Reduced Motion Support', () => {
 
     // Create a post with circle reveal animation
     await page.goto('/wp-admin/post-new.php');
-    await page.waitForLoadState('domcontentloaded');
-
-    // Close welcome dialog if present
-    const closeButton = page.getByRole('button', { name: 'Close' });
-    if (await closeButton.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await closeButton.click();
-    }
+    await setupEditor(page);
 
     // Create post
     const editorFrame = page.frameLocator('iframe[name="editor-canvas"]');
     const titleBox = editorFrame.getByRole('textbox', { name: 'Add title' });
     await titleBox.fill('Circle Reveal Reduced Motion Test', { timeout: 15000 });
 
-    const addBlockButton = editorFrame.getByRole('button', { name: 'Add default block' });
-    await addBlockButton.click({ timeout: 15000 });
+    await addParagraphBlock(page, 'Circle reveal should be disabled with reduced motion');
 
-    const blockEditor = editorFrame.getByRole('document', { name: /Empty block/ });
-    await blockEditor.fill('Circle reveal should be disabled with reduced motion', {
-      timeout: 15000,
-    });
+    // Wait for sidebar to be ready
+    await page.waitForTimeout(1000);
 
     const animationTypeSelect = page.getByLabel('Animation Type');
+    await expect(animationTypeSelect).toBeVisible({ timeout: 10000 });
     await animationTypeSelect.selectOption('Circle Reveal');
 
     // Publish the post
@@ -234,28 +280,20 @@ test.describe('Reduced Motion Support', () => {
 
     // Create a post with blur-in animation
     await page.goto('/wp-admin/post-new.php');
-    await page.waitForLoadState('domcontentloaded');
-
-    // Close welcome dialog if present
-    const closeButton = page.getByRole('button', { name: 'Close' });
-    if (await closeButton.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await closeButton.click();
-    }
+    await setupEditor(page);
 
     // Create post
     const editorFrame = page.frameLocator('iframe[name="editor-canvas"]');
     const titleBox = editorFrame.getByRole('textbox', { name: 'Add title' });
     await titleBox.fill('Blur In Reduced Motion Test', { timeout: 15000 });
 
-    const addBlockButton = editorFrame.getByRole('button', { name: 'Add default block' });
-    await addBlockButton.click({ timeout: 15000 });
+    await addParagraphBlock(page, 'Blur effect should be disabled with reduced motion');
 
-    const blockEditor = editorFrame.getByRole('document', { name: /Empty block/ });
-    await blockEditor.fill('Blur effect should be disabled with reduced motion', {
-      timeout: 15000,
-    });
+    // Wait for sidebar to be ready
+    await page.waitForTimeout(1000);
 
     const animationTypeSelect = page.getByLabel('Animation Type');
+    await expect(animationTypeSelect).toBeVisible({ timeout: 10000 });
     await animationTypeSelect.selectOption('Blur In');
 
     // Publish the post
@@ -307,26 +345,20 @@ test.describe('Reduced Motion Support', () => {
 
     // Create a post with animation
     await page.goto('/wp-admin/post-new.php');
-    await page.waitForLoadState('domcontentloaded');
-
-    // Close welcome dialog if present
-    const closeButton = page.getByRole('button', { name: 'Close' });
-    if (await closeButton.isVisible({ timeout: 2000 }).catch(() => false)) {
-      await closeButton.click();
-    }
+    await setupEditor(page);
 
     // Create post
     const editorFrame = page.frameLocator('iframe[name="editor-canvas"]');
     const titleBox = editorFrame.getByRole('textbox', { name: 'Add title' });
     await titleBox.fill('Normal Animation Test', { timeout: 15000 });
 
-    const addBlockButton = editorFrame.getByRole('button', { name: 'Add default block' });
-    await addBlockButton.click({ timeout: 15000 });
+    await addParagraphBlock(page, 'This paragraph should animate normally');
 
-    const blockEditor = editorFrame.getByRole('document', { name: /Empty block/ });
-    await blockEditor.fill('This paragraph should animate normally', { timeout: 15000 });
+    // Wait for sidebar to be ready
+    await page.waitForTimeout(1000);
 
     const animationTypeSelect = page.getByLabel('Animation Type');
+    await expect(animationTypeSelect).toBeVisible({ timeout: 10000 });
     await animationTypeSelect.selectOption('Fade In');
 
     // Publish the post

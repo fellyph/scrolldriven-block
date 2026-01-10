@@ -113,10 +113,12 @@ const SUPPORTED_BLOCKS = [
 ### Animation Types (17 total)
 
 **Entry Animations:**
+
 - `none`, `fade-in`, `slide-in-left`, `slide-in-right`, `slide-in-up`, `slide-in-down`
 - `scale-up`, `rotate-in`, `blur-in`, `rotate-3d-in`, `circle-reveal`, `curtain-reveal`
 
 **In-and-Out Animations:**
+
 - `fade-in-out`, `slide-up-in-out`, `scale-in-out`, `rotate-in-out`, `rotate-3d-in-out`
 
 ### Animation Timing Presets
@@ -127,20 +129,21 @@ const SUPPORTED_BLOCKS = [
 
 Each supported block gains these attributes:
 
-| Attribute | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `animationType` | string | `'none'` | Selected animation type |
-| `animationRange` | string | `'default'` | Timing preset |
-| `animationEntryStart` | number | `20` | Custom entry start (%) |
-| `animationEntryEnd` | number | `100` | Custom entry end (%) |
-| `animationExitStart` | number | `0` | Custom exit start (%) |
-| `animationExitEnd` | number | `100` | Custom exit end (%) |
-| `parallaxEnabled` | boolean | `false` | Enable parallax effect |
-| `parallaxStrength` | number | `50` | Parallax displacement strength |
+| Attribute             | Type    | Default     | Description                    |
+| --------------------- | ------- | ----------- | ------------------------------ |
+| `animationType`       | string  | `'none'`    | Selected animation type        |
+| `animationRange`      | string  | `'default'` | Timing preset                  |
+| `animationEntryStart` | number  | `20`        | Custom entry start (%)         |
+| `animationEntryEnd`   | number  | `100`       | Custom entry end (%)           |
+| `animationExitStart`  | number  | `0`         | Custom exit start (%)          |
+| `animationExitEnd`    | number  | `100`       | Custom exit end (%)            |
+| `parallaxEnabled`     | boolean | `false`     | Enable parallax effect         |
+| `parallaxStrength`    | number  | `50`        | Parallax displacement strength |
 
 ### CSS Classes & Data Attributes
 
 **Frontend output:**
+
 - Class: `scroll-anim-block` - Main animation class
 - Class: `scroll-anim-{type}` - Specific animation type (e.g., `scroll-anim-fade-in`)
 - Attribute: `data-scroll-anim="1"` - Animation marker
@@ -149,16 +152,16 @@ Each supported block gains these attributes:
 
 ## Key Files & Their Roles
 
-| File | Purpose |
-|------|---------|
-| `my-scroll-block.php` | Plugin entry; enqueues assets; `render_block` filter for frontend class injection |
-| `src/index.js` | Block filters; attribute registration; UI controls; markup manipulation |
-| `src/style.css` | CSS scroll timeline rules for all animation types |
-| `src/editor.css` | Editor UI styles (animation indicator badge) |
-| `src/progress-block/` | Reading Progress Bar custom block |
-| `tests/scroll-block.spec.ts` | Main e2e tests for editor and frontend |
-| `tests/reduced-motion.spec.ts` | Accessibility tests for reduced motion |
-| `tests/global-setup.ts` | WordPress Playground startup with plugin mounting |
+| File                           | Purpose                                                                           |
+| ------------------------------ | --------------------------------------------------------------------------------- |
+| `my-scroll-block.php`          | Plugin entry; enqueues assets; `render_block` filter for frontend class injection |
+| `src/index.js`                 | Block filters; attribute registration; UI controls; markup manipulation           |
+| `src/style.css`                | CSS scroll timeline rules for all animation types                                 |
+| `src/editor.css`               | Editor UI styles (animation indicator badge)                                      |
+| `src/progress-block/`          | Reading Progress Bar custom block                                                 |
+| `tests/scroll-block.spec.ts`   | Main e2e tests for editor and frontend                                            |
+| `tests/reduced-motion.spec.ts` | Accessibility tests for reduced motion                                            |
+| `tests/global-setup.ts`        | WordPress Playground startup with plugin mounting                                 |
 
 ## Testing Architecture
 
@@ -238,27 +241,30 @@ npx playwright test -g "test-name-pattern" # Run specific test
 
 ## Debugging
 
-| Issue | Solution |
-|-------|----------|
-| Editor issues | Check browser console; WordPress error logs |
-| Rendering issues | Run `npm run lint:js` and `npm run typecheck` |
-| Test failures | Run `npm run test:headed` or `npm run test:debug` |
-| Build errors | Check `npm run build` output; verify imports |
-| Port 9400 in use | Kill with `pkill -f "wp-playground"` |
+| Issue            | Solution                                          |
+| ---------------- | ------------------------------------------------- |
+| Editor issues    | Check browser console; WordPress error logs       |
+| Rendering issues | Run `npm run lint:js` and `npm run typecheck`     |
+| Test failures    | Run `npm run test:headed` or `npm run test:debug` |
+| Build errors     | Check `npm run build` output; verify imports      |
+| Port 9400 in use | Kill with `pkill -f "wp-playground"`              |
 
 ## CI/CD Workflows
 
 ### playwright.yml
+
 - Runs on: push to main/master, PRs
 - Runs e2e tests with Chromium
 - Uploads HTML report on failure
 
 ### build-plugin.yml
+
 - Runs on: push, PR, release, manual
 - Lints JS/CSS, builds assets, creates zip
 - Auto-uploads to releases on release events
 
 ### pr-preview.yml
+
 - Generates WordPress Playground preview links for PRs
 
 ## WordPress Playground Testing
