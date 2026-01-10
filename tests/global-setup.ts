@@ -55,8 +55,37 @@ async function globalSetup(): Promise<void> {
   // eslint-disable-next-line no-console
   console.log('WordPress Playground server started on http://127.0.0.1:9400');
 
-  // Wait a bit for the server to be fully ready
-  await new Promise<void>((resolve) => setTimeout(resolve, 2000));
+  // Wait for WordPress to be fully ready by polling the health endpoint
+  const maxAttempts = 30;
+  const delayMs = 2000;
+  let attempts = 0;
+
+  while (attempts < maxAttempts) {
+    try {
+      const response = await fetch('http://127.0.0.1:9400/wp-admin/');
+      if (response.ok || response.status === 302) {
+        // eslint-disable-next-line no-console
+        console.log(`WordPress is ready after ${attempts + 1} attempt(s)`);
+        break;
+      }
+    } catch {
+      // Server not ready yet, continue polling
+    }
+
+    attempts++;
+    if (attempts < maxAttempts) {
+      // eslint-disable-next-line no-console
+      console.log(`Waiting for WordPress to be ready... (attempt ${attempts}/${maxAttempts})`);
+      await new Promise<void>((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+
+  if (attempts >= maxAttempts) {
+    throw new Error('WordPress Playground failed to start within the expected time');
+  }
+
+  // Additional wait for plugin initialization
+  await new Promise<void>((resolve) => setTimeout(resolve, 1000));
 }
 
 export default globalSetup;
